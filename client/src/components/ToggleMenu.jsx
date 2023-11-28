@@ -47,7 +47,7 @@ const ToggleMenu = ({ dropdown, share, teams, hamburgerMenuDisplay }) => {
         <div className="flex flex-col items-start py-4 w-full space-y-3">
           <div className="text-sm flex flex-col items-start w-full space-y-1">
             <Link
-              to="/"
+              to="/home"
               className={`flex space-x-2 items-center h-fit ${
                 location.pathname === "/" ? "" : "hover:bg-gray-100"
               } w-full py-2 px-2 ${
