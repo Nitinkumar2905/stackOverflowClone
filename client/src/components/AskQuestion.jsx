@@ -7,7 +7,7 @@ const AskQuestion = () => {
     QuestionTitle: "",
     QuestionDetails: "",
     QuestionTriedMethod: "",
-    QuestionTags: "",
+    QuestionTags: [],
   });
   const host = "http://localhost:8000/api/question";
   const token = localStorage.getItem("token");
@@ -42,7 +42,8 @@ const AskQuestion = () => {
       if (response.ok) {
         const data = await response.json();
         console.log(data);
-        toast.success("Your question has been posted successfully", {
+
+        toast.success("success", "Question posted successfully", {
           style: {
             color: "black",
             backgroundColor: "white",
@@ -52,7 +53,9 @@ const AskQuestion = () => {
         });
         navigate("/questions");
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
@@ -175,11 +178,18 @@ const AskQuestion = () => {
                 <input
                   className="text-sm focus:outline-none border-gray-400 border-[1px] w-full px-2 py-1 rounded"
                   type="text"
-                  onChange={onChange}
-                  value={writeQuestion.QuestionTags}
+                  onChange={(e) =>
+                    setWriteQuestion({
+                      ...writeQuestion,
+                      QuestionTags: e.target.value
+                        .split(",")
+                        .map((tag) => tag.trim()),
+                    })
+                  }
+                  value={writeQuestion.QuestionTags.join(", ")} // Join tags for display
                   name="QuestionTags"
                   id="tags"
-                  placeholder="tags"
+                  placeholder="tags , comma separated"
                 />
               </div>
               {/* button to post question */}
