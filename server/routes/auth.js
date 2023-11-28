@@ -5,8 +5,8 @@ const { body, validationResult } = require("express-validator")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const fetchUser = require("../middleware/fetchUser")
-
-const JWT_SECRET = "stackOverflow@2905"
+require("dotenv").config()
+// const crypto = require("crypto")
 
 // Router 1 : create user using post request
 router.post("/createUser", [
@@ -37,7 +37,9 @@ router.post("/createUser", [
         user = await User.create({
             name: req.body.name,
             email: req.body.email,
-            password: secPass
+            password: secPass,
+            // isVerified: isVerified,
+            // emailVerificationToken: crypto.randomBytes(64).toString("hex")
         })
 
         const data = {
@@ -46,7 +48,7 @@ router.post("/createUser", [
                 name: user.name,
             },
         }
-        const authToken = jwt.sign(data, JWT_SECRET)
+        const authToken = jwt.sign(data, process.env.JWT_SECRET)
         const success = true
         res.json({ success, authToken })
         console.log("Account created successfully");
@@ -87,7 +89,7 @@ router.post("/login", [
             }
         }
 
-        const authToken = jwt.sign(data, JWT_SECRET)
+        const authToken = jwt.sign(data, process.env.JWT_SECRET)
         const success = true
         res.json({ success, authToken })
         console.log("User logged In successfully");
