@@ -4,8 +4,8 @@ const { body, validationResult } = require("express-validator")
 const router = express.Router()
 const jwt = require("jsonwebtoken")
 const fetchUser = require("../middleware/fetchUser")
-
-// const JWT_SECRET = "stackOverflow@2905"
+const { findById } = require("../models/User")
+require("dotenv").config()
 
 // Router 1 to create a question
 router.post("/askQuestion", fetchUser, [
@@ -52,6 +52,26 @@ router.get("/fetchQuestions", async (req, res) => {
         res.json(allQuestions)
     } catch (error) {
         res.status(500).json("Internal server error")
+    }
+})
+
+// router 3: route to particular question page
+router.get("/:id", async (req, res) => {
+    const questionId = req.params.id
+    try {
+        const errors = validationResult(req)
+        if (!errors.isEmpty) {
+            return res.status(400).json({ errors: errors.array() })
+        }
+        const question = await Question.findById(questionId)
+        if (!question) {
+            return res.status(400).json({ error: "question not found" })
+        }
+        res.json({ question })
+    } catch (error) {
+        console.error(error);
+        console.log(questionId);
+        res.status(500).send("Internal server error")
     }
 })
 
