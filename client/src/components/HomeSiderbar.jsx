@@ -56,7 +56,6 @@ const HomeSidebar = ({ dropdown, share, teams, hamburgerMenuDisplay }) => {
               } ${
                 location.pathname === "/home" ? "font-bold" : "font-normal"
               } cursor-pointer rounded-l-md`}
-              
             >
               <FaHome />
               <span>Home</span>
