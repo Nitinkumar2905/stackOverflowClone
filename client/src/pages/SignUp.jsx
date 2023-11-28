@@ -56,9 +56,9 @@ const SignUp = () => {
         });
         if (response.ok) {
           const data = await response.json();
-          localStorage.setItem("token", response.authToken);
+          localStorage.setItem("token", data.authToken);
           console.log(data);
-          navigate("/");
+          navigate("/home");
         }
       } catch (error) {
         console.error(error);
