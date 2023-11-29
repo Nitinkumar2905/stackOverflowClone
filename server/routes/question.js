@@ -106,7 +106,26 @@ router.post("/question/answer/:id", [
     }
 })
 
-// router 5: to delete a question and if the logged user is same as author
+// router to get question's answer
+router.get("/question/getAnswer/:id", async (req, res) => {
+    try {
+        const questionId = req.params.id
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() })
+        }
+        const answers = await QuestionAnswer.find({questionId})
+        if (!answers || answers.length===0) {
+            return res.status(404).json("no answer found for this question")
+        }
+        res.json({ answers })
+    } catch (error) {
+        console.error(error);
+        res.status(500).json("Internal server error")
+    }
+})
+
+// router 6: to delete a question and if the logged user is same as author
 router.delete("/delete/:id", fetchUser, async (req, res) => {
     try {
         const questionId = req.params.id
