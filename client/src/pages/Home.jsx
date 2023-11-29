@@ -15,7 +15,7 @@ const Home = () => {
       <div className="md:w-[25%] lg:w-[17%]">
         {token && <HomeSidebar onLinkClick={handleLinkClick} />}
       </div>
-      <Outlet/>
+      <Outlet className=""/>
       <div className="lg:flex hidden w-[23%]">
         <HomeRightSideContent />
       </div>
