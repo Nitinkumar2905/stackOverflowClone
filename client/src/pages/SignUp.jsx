@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import {
   FaComment,
   FaCommentAlt,
@@ -58,6 +59,12 @@ const SignUp = () => {
           const data = await response.json();
           localStorage.setItem("token", data.authToken);
           console.log(data);
+          toast.success("Account created successfully", {
+            color: "black",
+            backgroundColor: "white",
+            borderRadius: "10px",
+            border: "2px solid rgb(251,146,60)",
+          });
           navigate("/home");
         }
       } catch (error) {
