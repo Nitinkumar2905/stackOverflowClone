@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken")
 const JWT_SECRET = "stackOverflow@2905"
+const Question = require("../models/Question")
 
 const fetchUser = (req, res, next) => {
     // Get the user details from the json token and id to the request
@@ -16,4 +17,5 @@ const fetchUser = (req, res, next) => {
     }
 }
 
-module.exports = fetchUser;
+
+module.exports = fetchUser
