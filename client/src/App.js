@@ -14,7 +14,7 @@ function App() {
 
   return (
     <Router>
-      <Toaster position="top-center" toastOptions={{ duration: 500 }}
+      <Toaster position="top-center" toastOptions={{ duration: 1000 }}
         reverseOrder={false} />
       <Navbar />
       <Routes>
