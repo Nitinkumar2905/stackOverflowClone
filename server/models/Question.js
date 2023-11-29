@@ -10,16 +10,11 @@ const QuestionSchema = new Schema({
         type: mongoose.Schema.Types.String,
         ref: "User"
     },
-
     QuestionTitle: {
         type: String,
         required: true
     },
     QuestionDetails: {
-        type: String,
-        required: true
-    },
-    QuestionTriedMethod: {
         type: String,
         required: true
     },
