@@ -18,7 +18,7 @@ function App() {
         reverseOrder={false} />
       <Navbar />
       <Routes>
-        <Route exact index element={<Home />} />
+        {/* <Route exact index element={<Home />} /> */}
         <Route path="/" element={<Home />}>
           <Route path="/home" element={<AllQuestions />} />
           <Route path="/questions" element={<AllQuestions />} />

@@ -6,10 +6,9 @@ const AskQuestion = () => {
   const [writeQuestion, setWriteQuestion] = useState({
     QuestionTitle: "",
     QuestionDetails: "",
-    QuestionTriedMethod: "",
     QuestionTags: [],
   });
-  const host = "http://localhost:8000/api/question";
+  const host = "http://localhost:8000/api/questions";
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
@@ -19,12 +18,7 @@ const AskQuestion = () => {
 
   const handlePostQuestion = async (e) => {
     e.preventDefault();
-    const {
-      QuestionTitle,
-      QuestionDetails,
-      QuestionTriedMethod,
-      QuestionTags,
-    } = writeQuestion;
+    const { QuestionTitle, QuestionDetails, QuestionTags } = writeQuestion;
     try {
       const response = await fetch(`${host}/askQuestion`, {
         method: "POST",
@@ -35,7 +29,6 @@ const AskQuestion = () => {
         body: JSON.stringify({
           QuestionTitle,
           QuestionDetails,
-          QuestionTriedMethod,
           QuestionTags,
         }),
       });
@@ -138,7 +131,7 @@ const AskQuestion = () => {
                   The body of your question contains your problem detail.
                 </p>
                 <textarea
-                  className="text-sm focus:outline-none border-gray-400 border-[1px] w-full px-2 py-1 rounded"
+                  className="flex flex-col text-sm focus:outline-none border-gray-400 border-[1px] w-full px-2 py-1 rounded"
                   type="text"
                   onChange={onChange}
                   value={writeQuestion.QuestionDetails}
@@ -146,24 +139,6 @@ const AskQuestion = () => {
                   id="body"
                   row="10"
                   placeholder="Explain your problem in detail"
-                />
-              </div>
-              {/* question method tried */}
-              <div className="rounded border-[1px] border-gray-300 p-5 flex flex-col w-full items-start space-y-1">
-                <label className="font-semibold" htmlFor="triedMethod">
-                  Method Tried
-                </label>
-                <p className="text-xs">
-                  Tell us what method have tried to solve this problem.
-                </p>
-                <input
-                  className="text-sm focus:outline-none border-gray-400 border-[1px] w-full px-2 py-1 rounded"
-                  type="text"
-                  onChange={onChange}
-                  value={writeQuestion.QuestionTriedMethod}
-                  name="QuestionTriedMethod"
-                  id="triedMethod"
-                  placeholder="Write here"
                 />
               </div>
               {/* all question tags */}

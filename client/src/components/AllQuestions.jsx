@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import "./hideScrollbar.css"
 
 const AllQuestions = () => {
   const [questionsData, setQuestionsData] = useState([]);
-  const host = "http://localhost:8000/api/question";
+  const host = "http://localhost:8000/api/questions";
 
   // Function to format the time with custom message
   const formatTime = (timestamp) => {
@@ -65,8 +66,8 @@ const AllQuestions = () => {
     // eslint-disable-next-line
   }, []);
   return (
-    <div className="flex justify-between md:w-screen md:ml-5 lg:mx-0 lg:w-[57%]">
-      <div className="mt-6 flex flex-col items-start w-full space-y-10">
+    <div className="flex justify-between md:w-screen md:ml-5 lg:mx-0 lg:w-[57%] h-[88vh] hideScrollbar overflow-y-auto mt-7">
+      <div className="pr-4 flex flex-col items-start w-full space-y-10">
         <div className="flex flex-col space-y-4 w-full">
           <div className="flex justify-between w-full items-center">
             <div className="text-3xl">All Questions</div>
@@ -90,10 +91,13 @@ const AllQuestions = () => {
                 <div className="w-full" key={index}>
                   <div className="border-b-[0px] border-blue-100 flex flex-col space-y-2 pb-2 w-full">
                     <div className="flex flex-col space-y-1 items-start">
-                      <Link to={`/question/${question.id}`} className="font-medium text-blue-500">
+                      <Link
+                        to={`/questions/${question._id}`}
+                        className="font-medium text-blue-500"
+                      >
                         {question.QuestionTitle}
                       </Link>
-                      <p className="text-sm">{question.QuestionDetails}</p>
+                      <p className="text-sm">{question.QuestionDetails.length>340?`${question.QuestionDetails.slice(0,340)}...`:question.QuestionDetails}</p>
                     </div>
                     <div className="flex justify-between space-x-2">
                       <div className="space-x-2">
