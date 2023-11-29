@@ -4,7 +4,7 @@ import { FaCommentAlt, FaStackOverflow } from "react-icons/fa";
 const HomeRightSideContent = () => {
   return (
     <div>
-      <div className="w-full h-full flex flex-col space-y-10 mt-6">
+      <div className="w-full h-fit flex flex-col space-y-10 mt-6">
         <div className="flex flex-col items-start">
           {/* 1st box featured on meta */}
           <div className="flex flex-col w-full border-[1px] border-yellow-400 rounded">
