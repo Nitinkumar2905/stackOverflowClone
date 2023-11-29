@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
 
 // adding routes
 app.use("/api/auth",require("./routes/auth"))
-app.use("/api/question",require("./routes/question"))
+app.use("/api/questions",require("./routes/question"))
 
 app.listen(port, (req, res) => {
     console.log(`StackOverflow backend running on http://localhost:${port}`);
