@@ -4,7 +4,12 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import "./hideScrollbar.css";
 
 const ParticularQuestion = () => {
-  const [particularQuestionData, setParticularQuestionData] = useState({});
+  const [particularQuestionData, setParticularQuestionData] = useState([]);
+  const [postQuestionAnswer, setPostQuestionAnswer] = useState({
+    answerBody: "",
+  });
+  const [fetchQuestionAnswer, setFetchQuestionAnswer] = useState([]);
+
   const token = localStorage.getItem("token");
   const host = "http://localhost:8000/api/questions";
   const { id } = useParams();
@@ -59,6 +64,57 @@ const ParticularQuestion = () => {
     }
   };
 
+  const onChange = (e) => {
+    setPostQuestionAnswer({
+      ...postQuestionAnswer,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handlePostQuestionAnswer = async () => {
+    if (token) {
+      const { answerBody } = postQuestionAnswer;
+      try {
+        const response = await fetch(`${host}/question/answer/${id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": token,
+          },
+          body: JSON.stringify({
+            answerBody,
+          }),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          toast.success("Answer posted successfully", {
+            color: "black",
+            backgroundColor: "white",
+            borderRadius: "10px",
+            border: "2px solid rgb(251,146,60)",
+          });
+          setPostQuestionAnswer({
+            answerBody: "",
+          });
+          await fetchQuestionAnswers();
+          console.log(data);
+        } else {
+          console.log("could not post answer");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      toast("Login to continue", {
+        color: "black",
+        backgroundColor: "white",
+        borderRadius: "10px",
+        border: "2px solid rgb(251,146,60)",
+      });
+      navigate("/login");
+    }
+  };
+
   const handleAskQuestion = async () => {
     if (token) {
       navigate("/askQuestion");
@@ -72,6 +128,31 @@ const ParticularQuestion = () => {
       navigate("/login");
     }
   };
+
+  const fetchQuestionAnswers = async () => {
+    try {
+      const response = await fetch(`${host}/question/getAnswer/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setFetchQuestionAnswer(data);
+        console.log(data);
+      } else {
+        console.log("something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchQuestionAnswers();
+    // eslint-disable-next-line
+  }, [id]);
 
   useEffect(() => {
     fetchQuestionData();
@@ -112,7 +193,7 @@ const ParticularQuestion = () => {
           </div>
         </div>
         <hr className="my-2" />
-        <div className="flex justify-between w-full space-x-4">
+        <div className="flex justify-between w-full space-x-4 mb-2">
           <div>buttons</div>
           <div className="flex flex-col space-y-2 h-full w-full">
             <p className="tracking-wider text-sm">
@@ -135,6 +216,31 @@ const ParticularQuestion = () => {
             </div>
           </div>
         </div>
+        <hr className="my-1" />
+        {/* question's answers */}
+        <div>
+          <span className="text-lg font-medium">
+            {fetchQuestionAnswer.answers?
+            fetchQuestionAnswer.answers.length > 1
+              ? "Answers"
+              : "Answer":"No one answered yet😢"}
+          </span>{" "}
+          <div className="flex flex-col space-y-4">
+            {fetchQuestionAnswer.answers &&
+              fetchQuestionAnswer.answers.map((answer) => {
+                return (
+                  <>
+                    <div className="">
+                      <span className="">
+                        {answer.answerBody}
+                      </span>
+                      <span>by {answer.user}</span>
+                    </div>
+                  </>
+                );
+              })}
+          </div>
+        </div>
         <hr className="my-4" />
         <div className="flex flex-col space-y-6">
           <p className="tracking-wide text-lg">
@@ -145,12 +251,22 @@ const ParticularQuestion = () => {
             <span className="text-blue-500">facebook</span>,{" "}
             <span className="text-blue-500">twitter</span>
           </p>
-          <div className="flex flex-col space-y-2 pb-10">
+          <div className="flex flex-col items-start space-y-2 pb-10 w-full">
             <span className="text-lg">Your answer</span>
             <textarea
-              className="focus:placeholder:outline-none border-[1px] placeholder:text-lg border-gray-400 rounded py-2 px-4"
+              className="w-full focus:placeholder:outline-none border-[1px] placeholder:text-lg border-gray-400 rounded py-2 px-4"
+              type="text"
+              name="answerBody"
+              onChange={onChange}
+              value={postQuestionAnswer.answerBody}
               placeholder="Write your answer here for above asked question"
             ></textarea>
+            <button
+              className="bg-sky-600 border-sky-700 border-[1px] rounded px-4 py-1 text-white"
+              onClick={handlePostQuestionAnswer}
+            >
+              Post Answer
+            </button>
           </div>
         </div>
       </div>
