@@ -11,6 +11,7 @@ import {
   FaTrophy,
   FaBell,
   FaSearch,
+  FaUser,
 } from "react-icons/fa";
 import ToggleMenu from "./ToggleMenu";
 import toast from "react-hot-toast";
@@ -39,7 +40,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     if (token) {
       localStorage.removeItem("token");
-      navigate("/");
+      navigate("/home");
       console.log("logged out");
       toast.success("Logged Out Successfully!", {
         style: {
@@ -50,6 +51,23 @@ const Navbar = () => {
         },
       });
       window.location.reload();
+    }
+  };
+
+  const [loggedUserDetails, setLoggedUserDetails] = useState([]);
+  const host = "http://localhost:8000/api/auth";
+
+  const handleGetUser = async () => {
+    const response = await fetch(`${host}/getUser`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": token,
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
     }
   };
 
@@ -165,6 +183,9 @@ const Navbar = () => {
                 Logout
               </button>
               <div className="flex justify-between space-x-5 items-center h-fit">
+                <Link onClick={handleGetUser} to="/userProfile" className="cursor-pointer">
+                  <FaUser></FaUser>
+                </Link>
                 <span className="cursor-pointer">
                   <FaBell></FaBell>
                 </span>
@@ -174,9 +195,6 @@ const Navbar = () => {
                 <span className="cursor-pointer">
                   <FaRegQuestionCircle></FaRegQuestionCircle>
                 </span>
-                {/* <span className="cursor-pointer">
-                  <img src={menu} className="h-6" alt="" />
-                </span> */}
               </div>
             </div>
           )}
