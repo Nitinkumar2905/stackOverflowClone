@@ -8,11 +8,14 @@ import Tags from "./components/Tags";
 import { Toaster } from "react-hot-toast";
 import AskQuestion from "./components/AskQuestion";
 import ParticularQuestion from "./components/ParticularQuestion";
+import UserProfile from "./pages/UserProfile";
+import AuthState from "./Context/Authentication/AuthState";
 
 
 function App() {
 
   return (
+    // <AuthState>
     <Router>
       <Toaster position="top-center" toastOptions={{ duration: 1000 }}
         reverseOrder={false} />
@@ -28,8 +31,10 @@ function App() {
         <Route path="/askQuestion" element={<AskQuestion />} />
         <Route exact path="/signUp" element={<SignUp />} />
         <Route exact path="/login" element={<Login />} />
+        <Route exact path="/userProfile" element={<UserProfile />} />
       </Routes>
     </Router>
+    // </AuthState>
   );
 }
 
