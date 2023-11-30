@@ -6,7 +6,6 @@ import {
   FaGithub,
   FaFacebook,
   FaLink,
-  FaTruckLoading,
 } from "react-icons/fa";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -14,7 +13,6 @@ import { Link, useNavigate } from "react-router-dom";
 const Login = () => {
   const [passwordType, setPasswordType] = useState("password");
   const [credentials, setCredentials] = useState({ email: "", password: "" });
-  const [processCompleted, setProcessCompleted] = useState(true);
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
@@ -34,7 +32,6 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setProcessCompleted(true);
     try {
       const response = await fetch(`${host}/login`, {
         method: "POST",
@@ -51,7 +48,6 @@ const Login = () => {
         const data = await response.json();
         console.log(data);
         localStorage.setItem("token", data.authToken);
-        setProcessCompleted(false);
         navigate("/home");
         toast.success("Logged in successfully!", {
           style: {
@@ -62,11 +58,9 @@ const Login = () => {
           },
         });
       } else {
-        setProcessCompleted(true);
         console.error("password incorrect");
       }
     } catch (error) {
-      setProcessCompleted(false);
       console.error(error);
     }
   };
@@ -156,8 +150,7 @@ const Login = () => {
                 </div>
               </div>
               <button className="bg-sky-600 hover:bg-sky-700 text-sm my-1 text-white w-full py-2 rounded-lg">
-                {processCompleted ? "Log in" : "Loading"}
-                {/* Log in */}
+                Log in
               </button>
             </form>
           </div>
