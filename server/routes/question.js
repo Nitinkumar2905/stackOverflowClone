@@ -66,6 +66,8 @@ router.get("/question/:id", async (req, res) => {
         if (!question) {
             return res.status(400).json({ error: "question not found" })
         }
+        // question.visits += 1
+        // await question.save()
         res.json({ question })
     } catch (error) {
         console.error(error);
@@ -106,6 +108,8 @@ router.post("/question/answer/:id", [
     }
 })
 
+
+
 // router to get question's answer
 router.get("/question/getAnswer/:id", async (req, res) => {
     try {
@@ -114,9 +118,9 @@ router.get("/question/getAnswer/:id", async (req, res) => {
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() })
         }
-        const answers = await QuestionAnswer.find({questionId})
-        if (!answers || answers.length===0) {
-            return res.status(404).json("no answer found for this question")
+        const answers = await QuestionAnswer.find({ questionId })
+        if (!answers || answers.length === 0) {
+            return res.status(200).json("no answer found")
         }
         res.json({ answers })
     } catch (error) {
@@ -125,7 +129,100 @@ router.get("/question/getAnswer/:id", async (req, res) => {
     }
 })
 
-// router 6: to delete a question and if the logged user is same as author
+// router 5: up vote question if user is logged in
+router.post("/question/upVote/:id", fetchUser, async (req, res) => {
+    try {
+        const userId = req.user.id
+        const questionId = req.params.id
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() })
+        }
+        const question = await Question.findById(questionId)
+        // check if the user has already voted for the question
+        if (question.upVotes.includes(userId)) {
+            return res.status(400).json({ error: "You have already voted for this question" })
+        }
+
+        // if user has voted down for the question, remove it
+        if (question.downVotes.includes(userId)) {
+            question.downVotes.pull(userId)
+        }
+        // if the author tries to vote 
+        if (question.user.toString() === userId) {
+            return res.status(500).json({ error: "you can't vote as you are the author of the question" })
+        }
+        // add the user to the upvotes list and if author is not voting for question
+        question.upVotes.push(userId)
+
+        // update the vote count
+        question.votes = question.upVotes.length - question.downVotes.length
+
+        await question.save()
+        res.json({ success: true, votes: question.votes });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+})
+
+// router 7: to downvote for a question if user is logged in
+router.post("/question/downVote/:id", fetchUser, async (req, res) => {
+    try {
+        const userId = req.user.id
+        const questionId = req.params.id
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() })
+        }
+        const question = await Question.findById(questionId)
+        // check if the user has already voted for the question
+        if (question.downVotes.includes(userId)) {
+            return res.status(400).json({ error: "You have already voted for this questio" })
+        }
+        // if the user has voted for upvote, remove it 
+        if (question.upVotes.includes(userId)) {
+            question.upVotes.pull(userId)
+        }
+
+        // add the user to down vote list
+        question.downVotes.push(userId)
+
+        question.votes = question.upVotes.length - question.downVotes.length
+
+        await question.save()
+        res.json({ success: true, votes: question.votes })
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+})
+
+// route 8: get total votes for a question from backend
+router.get("/question/getVotes/:id", async (req, res) => {
+    try {
+        const questionId = req.params.id
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() })
+        }
+
+        const question = await Question.findById(questionId)
+        if (!question) {
+            return res.status(400).json("question not found")
+        }
+
+        const totalVotes = question.votes
+
+        res.json({ success: true, totalVotes: totalVotes })
+    } catch (error) {
+        console.error(error);
+        return res.status(400).json("Internal server error")
+    }
+})
+
+// router 9: to delete a question and if the logged user is same as author
 router.delete("/delete/:id", fetchUser, async (req, res) => {
     try {
         const questionId = req.params.id
