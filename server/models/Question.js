@@ -22,6 +22,18 @@ const QuestionSchema = new Schema({
         type: [String],
         required: true
     },
+    upVotes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User" // Reference to user model
+    }],
+    votes: {
+        type: Number,
+        default: 0
+    },
+    downVotes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User" // Reference to user model
+    }],
     date: {
         type: Date,
         default: Date.now
