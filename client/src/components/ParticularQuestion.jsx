@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "./hideScrollbar.css";
+import { BiSolidDownvote, BiSolidUpvote } from "react-icons/bi";
 
 const ParticularQuestion = () => {
   const [particularQuestionData, setParticularQuestionData] = useState([]);
   const [postQuestionAnswer, setPostQuestionAnswer] = useState({
     answerBody: "",
   });
+  const [voteCount, setVoteCount] = useState(0);
   const [fetchQuestionAnswer, setFetchQuestionAnswer] = useState([]);
 
   const token = localStorage.getItem("token");
@@ -56,13 +58,92 @@ const ParticularQuestion = () => {
       if (response.ok) {
         const data = await response.json();
         const questionData = await data.question;
-        console.log(questionData);
+        // console.log(questionData);
         setParticularQuestionData(questionData);
+        // setVisits(Math.floor((particularQuestionData.visits)/2))
       }
     } catch (error) {
       console.error("Error fetching question data:", error);
     }
   };
+
+  const handleVoteUp = async () => {
+    try {
+      if (token) {
+        const response = await fetch(`${host}/question/upVote/${id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": token,
+          },
+        });
+
+        if (response.ok) {
+          // eslint-disable-next-line
+          const data = await response.json();
+          await fetchTotalVotes();
+        } else {
+          console.error("Error upvoting the question");
+        }
+      } else {
+        toast("Login first to vote", {
+          color: "black",
+          backgroundColor: "white",
+          borderRadius: "10px",
+          border: "2px solid rgb(251,146,60)",
+        });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleVoteDown = async () => {
+    try {
+      if (token) {
+        const response = await fetch(`${host}/question/downvote/${id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": token,
+          },
+        });
+        if (response.ok) {
+          // eslint-disable-next-line
+          const data = await response.json();
+          await fetchTotalVotes();
+        } else {
+          console.error("Error downVoting the question");
+        }
+      } else {
+        toast("Login first to vote", {
+          color: "black",
+          backgroundColor: "white",
+          borderRadius: "10px",
+          border: "2px solid rgb(251,146,60)",
+        });
+      }
+    } catch (error) {
+      console.error("error:", error);
+    }
+  };
+
+  const fetchTotalVotes = async () => {
+    const response = await fetch(`${host}/question/getVotes/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      setVoteCount(data.totalVotes);
+    }
+  };
+  useEffect(() => {
+    fetchTotalVotes();
+    // eslint-disable-next-line
+  }, [id]);
 
   const onChange = (e) => {
     setPostQuestionAnswer({
@@ -97,7 +178,7 @@ const ParticularQuestion = () => {
             answerBody: "",
           });
           await fetchQuestionAnswers();
-          console.log(data);
+          // console.log(data);
         } else {
           console.log("could not post answer");
         }
@@ -140,9 +221,8 @@ const ParticularQuestion = () => {
       if (response.ok) {
         const data = await response.json();
         setFetchQuestionAnswer(data);
-        console.log(data);
       } else {
-        console.log("something went wrong");
+        console.log("no answer available");
       }
     } catch (error) {
       console.error(error);
@@ -194,19 +274,33 @@ const ParticularQuestion = () => {
         </div>
         <hr className="my-2" />
         <div className="flex justify-between w-full space-x-4 mb-2">
-          <div>buttons</div>
+          {particularQuestionData.QuestionDetails && (
+            <div className="flex flex-col justify-center items-center space-y-1">
+              <span
+                onClick={handleVoteUp}
+                className="border-[1px] hover:bg-orange-100 cursor-pointer border-black rounded-full p-2"
+              >
+                <BiSolidUpvote />
+              </span>
+              <span className="font-bold text-lg">{voteCount}</span>
+              <span
+                onClick={handleVoteDown}
+                className="cursor-pointer hover:bg-orange-100 border-[1px] border-black rounded-full p-2"
+              >
+                <BiSolidDownvote />
+              </span>
+            </div>
+          )}
           <div className="flex flex-col space-y-2 h-full w-full">
-            <p className="tracking-wider text-sm">
-              {particularQuestionData.QuestionDetails}
-            </p>
+            <p className="">{particularQuestionData.QuestionDetails}</p>
             {/* tags and other data */}
             <div className="flex space-x-2">
               {particularQuestionData.QuestionTags &&
-                particularQuestionData.QuestionTags.map((tag) => {
+                particularQuestionData.QuestionTags.map((tag, index) => {
                   return (
                     <>
-                      <div className="flex">
-                        <span className="bg-blue-100 text-blue-400 px-2 py-1 rounded text-xs">
+                      <div className="flex" key={index}>
+                        <span className="bg-blue-100 text-blue-500 px-2 py-1 rounded text-sm">
                           {tag}
                         </span>
                       </div>
@@ -219,30 +313,50 @@ const ParticularQuestion = () => {
         <hr className="my-1" />
         {/* question's answers */}
         <div>
-          <span className="text-lg font-medium">
-            {fetchQuestionAnswer.answers?
-            fetchQuestionAnswer.answers.length > 1
-              ? "Answers"
-              : "Answer":"No one answered yet😢"}
-          </span>{" "}
+          <div className="flex space-x-1 items-center">
+            <span className="font-medium text-lg">
+              {fetchQuestionAnswer.answers &&
+                fetchQuestionAnswer.answers.length}
+            </span>
+            <span className="text-lg font-medium">
+              {fetchQuestionAnswer.answers
+                ? fetchQuestionAnswer.answers.length > 1
+                  ? "Answers"
+                  : "Answer"
+                : "No one answered yet😢"}
+            </span>
+          </div>
           <div className="flex flex-col space-y-4">
             {fetchQuestionAnswer.answers &&
-              fetchQuestionAnswer.answers.map((answer) => {
+              fetchQuestionAnswer.answers.map((answer, index) => {
                 return (
                   <>
-                    <div className="">
-                      <span className="">
-                        {answer.answerBody}
-                      </span>
-                      <span>by {answer.user}</span>
+                    <div
+                      className="flex flex-col border-b-[1px] border-gray-100 pb-2"
+                      key={index}
+                    >
+                      <span className="">{answer.answerBody}</span>
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm text-gray-400">
+                          answered{" "}
+                          <span className="text-black">
+                            {formatTime(answer.date)}
+                          </span>
+                        </div>
+                        <div className="text-sm">
+                          by{" "}
+                          <span className="font-medium text-blue-500">
+                            {answer.userName}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </>
                 );
               })}
           </div>
         </div>
-        <hr className="my-4" />
-        <div className="flex flex-col space-y-6">
+        <div className="flex flex-col space-y-6 mt-4">
           <p className="tracking-wide text-lg">
             Know someone who can answer? Share a link to this{" "}
             <span className="text-blue-500">quesiton</span> via{" "}
