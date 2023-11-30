@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import "./hideScrollbar.css"
+import { Link, useNavigate } from "react-router-dom";
+import "./hideScrollbar.css";
+import toast from "react-hot-toast";
 
 const AllQuestions = () => {
   const [questionsData, setQuestionsData] = useState([]);
   const host = "http://localhost:8000/api/questions";
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   // Function to format the time with custom message
   const formatTime = (timestamp) => {
@@ -61,6 +64,20 @@ const AllQuestions = () => {
     }
   };
 
+  const handleNavigateAskQuestion = () => {
+    if (token) {
+      navigate("/askQuestion");
+    } else {
+      toast("Login to continue", {
+        color: "black",
+        backgroundColor: "white",
+        borderRadius: "10px",
+        border: "2px solid rgb(251,146,60)",
+      });
+      navigate("/login");
+    }
+  };
+
   useEffect(() => {
     fetchAllQuestions();
     // eslint-disable-next-line
@@ -71,12 +88,12 @@ const AllQuestions = () => {
         <div className="flex flex-col space-y-4 w-full">
           <div className="flex justify-between w-full items-center">
             <div className="text-3xl">All Questions</div>
-            <Link
-              to="/askQuestion"
+            <button
+              onClick={handleNavigateAskQuestion}
               className="border-[1px] border-sky-700 bg-sky-600 text-sm px-2 py-2 rounded text-center text-white"
             >
               Ask Question
-            </Link>
+            </button>
           </div>
           <div className="font-medium py-1 px-2 bg-black text-white border-black rounded  border-2 w-fit">
             No. of Question:{" "}
@@ -97,14 +114,18 @@ const AllQuestions = () => {
                       >
                         {question.QuestionTitle}
                       </Link>
-                      <p className="text-sm">{question.QuestionDetails.length>340?`${question.QuestionDetails.slice(0,340)}...`:question.QuestionDetails}</p>
+                      <p className="text-sm">
+                        {question.QuestionDetails.length > 340
+                          ? `${question.QuestionDetails.slice(0, 340)}...`
+                          : question.QuestionDetails}
+                      </p>
                     </div>
                     <div className="flex justify-between space-x-2">
                       <div className="space-x-2">
                         {question.QuestionTags.map((tag) => {
                           return (
                             <>
-                              <span className="text-xs bg-blue-100 px-2 text-blue-500 py-1 rounded">
+                              <span className="text-sm bg-blue-100 px-2 text-blue-500 py-1 rounded">
                                 {tag}
                               </span>
                             </>
@@ -113,7 +134,7 @@ const AllQuestions = () => {
                       </div>
                       {question.userName && (
                         <div className="text-sm">
-                          <Link to="/userProfile" className="text-blue-400">
+                          <Link to="/userProfile" className="font-medium text-blue-600">
                             {question?.userName}
                           </Link>{" "}
                           {""}
