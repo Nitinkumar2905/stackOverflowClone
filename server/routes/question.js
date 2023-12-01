@@ -66,7 +66,6 @@ router.get("/question/:id", async (req, res) => {
         if (!question) {
             return res.status(400).json({ error: "question not found" })
         }
-        // question.visits += 1
         // await question.save()
         res.json({ question })
     } catch (error) {
@@ -108,9 +107,7 @@ router.post("/question/answer/:id", [
     }
 })
 
-
-
-// router to get question's answer
+// router 5: to get question's answer
 router.get("/question/getAnswer/:id", async (req, res) => {
     try {
         const questionId = req.params.id
@@ -129,7 +126,7 @@ router.get("/question/getAnswer/:id", async (req, res) => {
     }
 })
 
-// router 5: up vote question if user is logged in
+// router 6: up vote question if user is logged in
 router.post("/question/upVote/:id", fetchUser, async (req, res) => {
     try {
         const userId = req.user.id
@@ -199,7 +196,7 @@ router.post("/question/downVote/:id", fetchUser, async (req, res) => {
     }
 })
 
-// route 8: get total votes for a question from backend
+// router 8: get total votes for a question from backend
 router.get("/question/getVotes/:id", async (req, res) => {
     try {
         const questionId = req.params.id
