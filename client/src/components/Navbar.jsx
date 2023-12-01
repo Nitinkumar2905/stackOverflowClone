@@ -79,7 +79,9 @@ const Navbar = () => {
           <div className="flex h-full items-center space-x-6">
             {!token && (
               <button
-                className="cursor-pointer"
+                className={`cursor-pointer ${
+                  location.pathname === "/welcome" ? "flex" : "hidden"
+                }`}
                 ref={ref}
                 onClick={toggleHamburgerMenu}
               >
@@ -183,7 +185,11 @@ const Navbar = () => {
                 Logout
               </button>
               <div className="flex justify-between space-x-5 items-center h-fit">
-                <Link onClick={handleGetUser} to="/userProfile" className="cursor-pointer">
+                <Link
+                  onClick={handleGetUser}
+                  to="/userProfile"
+                  className="cursor-pointer"
+                >
                   <FaUser></FaUser>
                 </Link>
                 <span className="cursor-pointer">
@@ -207,6 +213,7 @@ const Navbar = () => {
             hamburgerMenuDisplay={hamburgerMenuDisplay}
             teams={teams}
             share={share}
+            toggleHamburgerMenu={toggleHamburgerMenu}
           ></ToggleMenu>
         )}
       </div>
