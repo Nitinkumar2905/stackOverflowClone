@@ -10,12 +10,20 @@ import {
   FaTags,
   FaUsers,
 } from "react-icons/fa";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
-const ToggleMenu = ({ dropdown, share, teams, hamburgerMenuDisplay }) => {
+const ToggleMenu = ({
+  dropdown,
+  share,
+  teams,
+  hamburgerMenuDisplay,
+  toggleHamburgerMenu,
+}) => {
   const location = useLocation();
   const collectiveRef = useRef();
   const labsRef = useRef();
+  const { path } = useParams;
+  const navigate = useNavigate();
 
   const [toggleLabsInfo, setToggleLabsInfo] = useState("hidden");
   const [toggleCollectives, setToggleCollectives] = useState("hidden");
