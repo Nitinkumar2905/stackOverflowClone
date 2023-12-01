@@ -13,6 +13,7 @@ const ParticularQuestion = () => {
   const [fetchQuestionAnswer, setFetchQuestionAnswer] = useState([]);
 
   const token = localStorage.getItem("token");
+  const loggedUserId = localStorage.getItem("loggedUserId");
   const host = "http://localhost:8000/api/questions";
   const { id } = useParams();
   const navigate = useNavigate();
@@ -57,10 +58,13 @@ const ParticularQuestion = () => {
 
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
         const questionData = await data.question;
         // console.log(questionData);
         setParticularQuestionData(questionData);
-        // setVisits(Math.floor((particularQuestionData.visits)/2))
+        if(loggedUserId){
+          
+        }
       }
     } catch (error) {
       console.error("Error fetching question data:", error);
@@ -79,11 +83,16 @@ const ParticularQuestion = () => {
         });
 
         if (response.ok) {
-          // eslint-disable-next-line
-          const data = await response.json();
           await fetchTotalVotes();
+          await fetchQuestionData();
         } else {
-          console.error("Error upvoting the question");
+          console.warn("You have already upVoted for this question");
+          toast("You have already voted up 😁 for this question", {
+            color: "black",
+            backgroundColor: "white",
+            borderRadius: "10px",
+            border: "2px solid rgb(251,146,60)",
+          });
         }
       } else {
         toast("Login first to vote", {
@@ -101,7 +110,7 @@ const ParticularQuestion = () => {
   const handleVoteDown = async () => {
     try {
       if (token) {
-        const response = await fetch(`${host}/question/downvote/${id}`, {
+        const response = await fetch(`${host}/question/downVote/${id}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -112,8 +121,15 @@ const ParticularQuestion = () => {
           // eslint-disable-next-line
           const data = await response.json();
           await fetchTotalVotes();
+          await fetchQuestionData();
         } else {
-          console.error("Error downVoting the question");
+          console.warn("You already have downVoting for this question");
+          toast("You have already voted down 😢 for this question", {
+            color: "black",
+            backgroundColor: "white",
+            borderRadius: "10px",
+            border: "2px solid rgb(251,146,60)",
+          });
         }
       } else {
         toast("Login first to vote", {
