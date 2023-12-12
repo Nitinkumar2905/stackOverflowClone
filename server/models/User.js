@@ -2,6 +2,10 @@ const mongoose = require("mongoose")
 const { Schema } = mongoose
 
 const UserSchema = new Schema({
+    profileImage: {
+        type: String,
+        default: null
+    },
     name: {
         type: String,
         required: true
@@ -22,6 +26,16 @@ const UserSchema = new Schema({
     // emailVerificationToken: {
     //     type: String,
     // },
+    questionCount: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    answerCount: {
+        type: Number,
+        required: true,
+        default: 0
+    },
     date: {
         type: Date,
         default: Date.now
