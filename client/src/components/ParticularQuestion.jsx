@@ -62,8 +62,7 @@ const ParticularQuestion = () => {
         const questionData = await data.question;
         // console.log(questionData);
         setParticularQuestionData(questionData);
-        if(loggedUserId){
-          
+        if (loggedUserId) {
         }
       }
     } catch (error) {
@@ -348,7 +347,7 @@ const ParticularQuestion = () => {
                 return (
                   <>
                     <div
-                      className="flex flex-col border-b-[1px] border-gray-100 pb-2"
+                      className="flex flex-col border-b-[1px] border-gray-100 pb-2 space-y-2"
                       key={index}
                     >
                       <span className="">{answer.answerBody}</span>
