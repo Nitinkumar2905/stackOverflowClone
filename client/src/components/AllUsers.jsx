@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import HomeSidebar from "./HomeSiderbar";
+import HomeSidebar from "./HomeSidebar";
 
 const AllUsers = () => {
   const host = "http://localhost:8000/api/auth";
