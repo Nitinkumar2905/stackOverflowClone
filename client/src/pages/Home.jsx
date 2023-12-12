@@ -1,5 +1,5 @@
 import React from "react";
-import HomeSidebar from "../components/HomeSiderbar";
+import HomeSidebar from "../components/HomeSidebar";
 import HomeRightSideContent from "../components/HomeRightSideContent";
 import { Outlet, useNavigate } from "react-router-dom";
 
