@@ -3,8 +3,10 @@ const Question = require("../models/Question")
 const QuestionAnswer = require("../models/QuestionAnswer")
 const { body, validationResult } = require("express-validator")
 const router = express.Router()
+const User = require("../models/User")
 const jwt = require("jsonwebtoken")
 const fetchUser = require("../middleware/fetchUser")
+const e = require("express")
 require("dotenv").config()
 
 // Router 1 to create a question
@@ -28,7 +30,7 @@ router.post("/askQuestion", fetchUser, [
             userName: userName
         })
         const savedQuestion = await question.save()
-
+        await User.findByIdAndUpdate(userId, { $inc: { questionCount: 1 } })
         res.json(savedQuestion)
         console.log(req.user)
     } catch (error) {
@@ -100,6 +102,7 @@ router.post("/question/answer/:id", [
                 user, userName, questionId
             })
             const savedAnswer = await answer.save()
+            await User.findByIdAndUpdate(user, { $inc: { answerCount: 1 } })
             res.json(savedAnswer)
         }
     } catch (error) {
@@ -138,7 +141,12 @@ router.post("/question/upVote/:id", fetchUser, async (req, res) => {
         const question = await Question.findById(questionId)
         // check if the user has already voted for the question
         if (question.upVotes.includes(userId)) {
-            return res.status(400).json({ error: "You have already voted for this question" })
+            // return res.status(400).json({ error: "You have already voted for this question" })
+            question.upVotes.pull(userId)
+        }
+        else {
+            // add the user to the upvotes list and if author is not voting for question
+            question.upVotes.push(userId)
         }
 
         // if user has voted down for the question, remove it
@@ -149,8 +157,7 @@ router.post("/question/upVote/:id", fetchUser, async (req, res) => {
         if (question.user.toString() === userId) {
             return res.status(500).json({ error: "you can't vote as you are the author of the question" })
         }
-        // add the user to the upvotes list and if author is not voting for question
-        question.upVotes.push(userId)
+
 
         // update the vote count
         question.votes = question.upVotes.length - question.downVotes.length
@@ -176,15 +183,23 @@ router.post("/question/downVote/:id", fetchUser, async (req, res) => {
         const question = await Question.findById(questionId)
         // check if the user has already voted for the question
         if (question.downVotes.includes(userId)) {
-            return res.status(400).json({ error: "You have already voted for this questio" })
+            // return res.status(400).json({ error: "You have already voted for this questio" })
+            question.downVotes.pull(userId)
         }
+        else {
+            // add the user to down vote list
+            question.downVotes.push(userId)
+        }
+
         // if the user has voted for upvote, remove it 
         if (question.upVotes.includes(userId)) {
             question.upVotes.pull(userId)
         }
 
-        // add the user to down vote list
-        question.downVotes.push(userId)
+        // if the author tries to vote 
+        if (question.user.toString() === userId) {
+            return res.status(500).json({ error: "you can't vote as you are the author of the question" })
+        }
 
         question.votes = question.upVotes.length - question.downVotes.length
 
@@ -235,7 +250,7 @@ router.delete("/delete/:id", fetchUser, async (req, res) => {
                 await Question.findByIdAndDelete(questionId)
                 // deleting multiple answer associated with this question id
                 await QuestionAnswer.deleteMany({ questionId })
-
+                await User.findByIdAndUpdate(userId, { $inc: { questionCount: -1 } })
                 res.json({ message: "Question deleted successfully" })
             }
             else {
