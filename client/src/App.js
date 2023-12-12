@@ -9,11 +9,10 @@ import { Toaster } from "react-hot-toast";
 import AskQuestion from "./components/AskQuestion";
 import ParticularQuestion from "./components/ParticularQuestion";
 import UserProfile from "./pages/UserProfile";
-import AuthState from "./Context/Authentication/AuthState";
-
+import AllUsers from "./components/AllUsers";
+// import AuthState from "./Context/Authentication/AuthState";
 
 function App() {
-
   return (
     // <AuthState>
     <Router>
@@ -21,7 +20,7 @@ function App() {
         reverseOrder={false} />
       <Navbar />
       <Routes>
-        {/* <Route exact index element={<Home />} /> */}
+        <Route exact index element={<Home />} />
         <Route path="/" element={<Home />}>
           <Route path="/home" element={<AllQuestions />} />
           <Route path="/questions" element={<AllQuestions />} />
@@ -32,6 +31,7 @@ function App() {
         <Route exact path="/signUp" element={<SignUp />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/userProfile" element={<UserProfile />} />
+        <Route exact path="/users" element={<AllUsers />} />
       </Routes>
     </Router>
     // </AuthState>
