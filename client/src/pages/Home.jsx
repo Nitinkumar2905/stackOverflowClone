@@ -16,7 +16,7 @@ const Home = () => {
         {/* {token && <HomeSidebar onLinkClick={handleLinkClick} />} */}
         <HomeSidebar onLinkClick={handleLinkClick}></HomeSidebar>
       </div>
-      <Outlet className="" />
+      <Outlet />
       <div className="lg:flex hidden w-[23%]">
         <HomeRightSideContent />
       </div>
