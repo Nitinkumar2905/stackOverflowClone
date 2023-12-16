@@ -41,6 +41,10 @@ const UserProfile = () => {
           <div className="flex flex-col w-[96%] space-y-10 bg-gray-50">
             <div className="m-4">
               <div className="flex w-full justify-between">
+                {/* user image */}
+                <div>
+                  <input type="file" accept="image/*" />
+                </div>
                 <div className="flex flex-col justify-between border-2 border-black">
                   {loggedUserDetails.user && (
                     <div className="flex flex-col items-start m-4">
