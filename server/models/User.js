@@ -3,8 +3,9 @@ const { Schema } = mongoose
 
 const UserSchema = new Schema({
     profileImage: {
-        type: String,
-        default: null
+        data: String,
+        contentType: String,
+        // default: null
     },
     name: {
         type: String,
