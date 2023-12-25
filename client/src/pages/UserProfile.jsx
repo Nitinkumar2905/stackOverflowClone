@@ -1,11 +1,78 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { FaPencilAlt } from "react-icons/fa";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { FaPencilAlt, FaPlus } from "react-icons/fa";
+import { AiFillDelete } from "react-icons/ai";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const UserProfile = () => {
   const [loggedUserDetails, setLoggedUserDetails] = useState([]);
   const token = localStorage.getItem("token");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const ref = useRef();
+
   const host = "http://localhost:8000/api/auth";
+  const imageHost = "http://localhost:8000/";
+  const [file, setFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    // show the image preview
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(selectedFile);
+    }
+
+    setFile(selectedFile);
+  };
+
+  const handleSelectFile = (e) => {
+    e.preventDefault();
+    ref.current.click();
+  };
+
+  const handleUpload = async () => {
+    // use form data to send file to the backend
+    const formData = new FormData();
+    formData.append("profileImage", file);
+
+    // send the form data to the backend api endpoint
+    try {
+      const response = await axios.post(`${host}/uploadImage`, formData, {
+        headers: {
+          // "Content-Type": "multipart/form-data",
+          "auth-token": token,
+        },
+      });
+      if (response.ok) {
+        toast.success("Image uploaded successfully!", {
+          style: {
+            color: "black",
+            backgroundColor: "white",
+            borderRadius: "10px",
+            border: "2px solid rgb(251,146,60)",
+          },
+        });
+      } else {
+        toast.error("Some technical issue occured", {
+          style: {
+            color: "black",
+            backgroundColor: "white",
+            borderRadius: "10px",
+            border: "2px solid rgb(251,146,60)",
+          },
+        });
+        console.error("could not process your request at this time");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleGetUser = async () => {
     const response = await fetch(`${host}/getUser`, {
@@ -25,7 +92,37 @@ const UserProfile = () => {
   useEffect(() => {
     handleGetUser();
     // eslint-disable-next-line
-  }, [host]);
+  }, [file]);
+
+  const handleDeleteUser = async () => {
+    try {
+      const response = await fetch(
+        `${host}/removeUser/${loggedUserDetails.user._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "auth-token": token,
+          },
+        }
+      );
+      if (response.ok) {
+        toast.success("Account deleted successfully!", {
+          style: {
+            color: "black",
+            backgroundColor: "white",
+            borderRadius: "10px",
+            border: "2px solid rgb(251,146,60)",
+          },
+        });
+        await localStorage.removeItem("token");
+        navigate("/home");
+        console.log("account deleted");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       <div className="flex w-[90%] mx-auto justify-center">
@@ -41,25 +138,122 @@ const UserProfile = () => {
           <div className="flex flex-col w-[96%] space-y-10 bg-gray-50">
             <div className="m-4">
               <div className="flex w-full justify-between">
-                {/* user image */}
-                <div>
-                  <input type="file" accept="image/*" />
-                </div>
-                <div className="flex flex-col justify-between border-2 border-black">
-                  {loggedUserDetails.user && (
-                    <div className="flex flex-col items-start m-4">
-                      <span>{loggedUserDetails.user.name}</span>
-                      <span>{loggedUserDetails.user.email}</span>
+                <div className="flex w-full space-x-2">
+                  {/* user image */}
+                  {!loggedUserDetails?.user?.profileImage?.data && (
+                    <div className=" w-1/4 space-y-3 p-2">
+                      {!imagePreview && (
+                        <input
+                          ref={ref}
+                          type="file"
+                          accept="image/*"
+                          name="profileImage"
+                          className="hidden"
+                          onChange={handleFileChange}
+                        />
+                      )}
+                      {!imagePreview && (
+                        <span
+                          onClick={handleSelectFile}
+                          className="cursor-pointer w-16 h-16 border-2 border-gray-800 flex items-center justify-center"
+                        >
+                          <FaPlus />
+                        </span>
+                      )}
+                      {imagePreview && (
+                        <img
+                          src={imagePreview}
+                          alt=""
+                          className="mt-2 max-w-full max-h-40 object-cover"
+                        />
+                      )}
+                      <button
+                        onClick={handleUpload}
+                        className="border-[1px] rounded border-gray-500 px-3 py-1 text-sm"
+                      >
+                        Upload
+                      </button>
                     </div>
                   )}
-                  <div>user other details</div>
+                  {loggedUserDetails?.user?.profileImage?.data ? (
+                    <div className="relative">
+                      <img
+                        className="w-[80px] h-[80px] rounded-full content-center"
+                        src={`${imageHost}${loggedUserDetails?.user?.profileImage?.data}`}
+                        alt=""
+                      />
+                      <span className=""><FaPencilAlt/></span>
+                    </div>
+                  ) : null}
+                  <div className="flex flex-col items-start">
+                    {loggedUserDetails.user && (
+                      <div className="flex flex-col items-start m-4">
+                        <span className="font-normal text-3xl">
+                          {loggedUserDetails.user.name}
+                        </span>
+                        {/* <span>{loggedUserDetails.user.email}</span> */}
+                      </div>
+                    )}
+                    {/* <div>user other details</div> */}
+                  </div>
                 </div>
-                <div className="text-xs flex  cursor-pointer border-[1px] rounded-lg border-gray-600 h-fit w-fit px-2 py-2">
+                <div className="text-xs flex  cursor-pointer border-[1px] rounded-lg border-gray-600 h-fit w-32 px-2 py-2">
                   <FaPencilAlt className="mt-[2.5px] mx-2"></FaPencilAlt>
                   Edit profile
                 </div>
+                <div
+                  onClick={handleDeleteUser}
+                  className="text-xs flex  cursor-pointer border-[1px] rounded-lg border-gray-600 h-fit w-32 px-2 py-2"
+                >
+                  <AiFillDelete className="mt-[2.5px] mx-2"></AiFillDelete>
+                  Delete Account
+                </div>
               </div>
-              <div>2nd box</div>
+              {/* other part */}
+              <div className="flex flex-col space-y-4 w-full h-fit mt-10">
+                {/* 1st part w-full */}
+                <div className="flex space-x-4 items-center mx-auto border-[1px] border-gray-500 rounded bg-gray-100 w-full h-12">
+                  <div className="flex justify-around w-[40%]">
+                    <Link
+                      to="/profile"
+                      className={`border-[1px] border-gray-400 px-4 py-1 text-sm rounded-full ${
+                        location.pathname === "/profile" ? "bg-orange-400" : ""
+                      }`}
+                    >
+                      Profile
+                    </Link>
+                    <Link
+                      to="/activity"
+                      className={`border-[1px] border-gray-400 px-4 py-1 text-sm rounded-full ${
+                        location.pathname === "/activity" ? "bg-orange-400" : ""
+                      }`}
+                    >
+                      Activity
+                    </Link>
+                    <Link
+                      to="/saved"
+                      className={`border-[1px] border-gray-400 px-4 py-1 text-sm rounded-full ${
+                        location.pathname === "/saved" ? "bg-orange-400" : ""
+                      }`}
+                    >
+                      Saved
+                    </Link>
+                    <Link
+                      to="/settings"
+                      className={`border-[1px] border-gray-400 px-4 py-1 text-sm rounded-full ${
+                        location.pathname === "/settings" ? "bg-orange-400" : ""
+                      }`}
+                    >
+                      Settings
+                    </Link>
+                  </div>
+                </div>
+                {/* 2nd part w-full */}
+                <div className="flex space-x-4 justify-between w-full h-[60vh]">
+                  <div className="border-[1px] w-[20%] border-gray-500 rounded bg-gray-100"></div>
+                  <div className="border-[1px] w-[80%] border-gray-500 rounded bg-gray-100"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
