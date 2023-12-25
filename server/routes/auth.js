@@ -4,29 +4,31 @@ const router = express.Router()
 const { body, validationResult } = require("express-validator")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
-// const multer = require("multer")
-// const path = require("path")
+const multer = require("multer")
+const path = require("path")
 const fetchUser = require("../middleware/fetchUser")
 const Question = require("../models/Question")
 const QuestionAnswer = require("../models/QuestionAnswer")
-// const { v4: uuidv4 } = require("uuid")
+const { v4: uuidv4 } = require("uuid")
 require("dotenv").config()
+const fs = require("fs");
+
 // const crypto = require("crypto")
 
 
 // multer configuration to upload user profile image 
-// const storage = multer.diskStorage({
-//     destination: function (req, res, cb) {
-//         cb(null, path.join(__dirname, "../uploads/"))
-//     },
-//     filename: function (req, file, cb) {
-//         cb(null, uuidv4() + "-" + Date.now() + "-" + path.extname(file.originalname))
-//     }
-// })
+const storage = multer.diskStorage({
+    destination: function (req, res, cb) {
+        cb(null, path.join(__dirname, "../uploads/"))
+    },
+    filename: function (req, file, cb) {
+        cb(null, uuidv4() + "-" + Date.now() + "-" + path.extname(file.originalname))
+    }
+})
 
-// const upload = multer({
-//     storage: storage
-// })
+const upload = multer({
+    storage: storage
+})
 
 
 // Router 1 : create user using post request
@@ -126,9 +128,9 @@ router.get("/getUser", fetchUser, async (req, res) => {
     try {
         const userId = req.user.id
         const user = await User.findById(userId).select("+password")
-        const questionCount = await Question.countDocuments({ user: userId })
-        const userAskedQuestion = await Question.find({ user: userId })
-        const userQuestionAnswered = await QuestionAnswer.find({ user: userId })
+        // const questionCount = await Question.countDocuments({ user: userId })
+        // const userAskedQuestion = await Question.find({ user: userId })
+        // const userQuestionAnswered = await QuestionAnswer.find({ user: userId })
         res.send({ user })
         console.log("Fetched user details");
     } catch (error) {
@@ -152,23 +154,29 @@ router.get("/getAllUsers", async (req, res) => {
 })
 
 // route 5: to upload user image
-// router.post("/uploadImage", fetchUser, upload.single("profileImage"), async (req, res) => {
-//     try {
-//         const userId = req.user.id
-//         const imagePath = req.file.path
-//         const errors = validationResult(req)
-//         if (!errors.isEmpty()) {
-//             return res.status(400).json({ errors: errors.array() })
-//         }
-//         await User.findByIdAndUpdate(userId, { profileImage: imagePath })
-//         // get the updated user data
-//         const updatedUser = await User.findById(userId)
-//         res.json({ success: true, imagePath: imagePath, user: updatedUser })
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json("Internal server error")
-//     }
-// })
+router.post("/uploadImage", fetchUser, upload.single("profileImage"), async (req, res) => {
+    try {
+
+        const userId = req.user.id
+        const { mimetype } = req.file
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() })
+        }
+        const result = await User.findByIdAndUpdate(userId);
+        result.profileImage = {
+            data: req.file.filename,
+            contentType: mimetype,
+        };
+        await result.save();
+
+        console.log("user image is succesfully updated");
+        res.send({ success: true })
+    } catch (error) {
+        console.error(error);
+        res.status(500).json("Internal server error")
+    }
+})
 
 // Route 6 : Delete user by userId if logged in
 router.delete("/removeUser/:id", fetchUser, async (req, res) => {
@@ -178,7 +186,9 @@ router.delete("/removeUser/:id", fetchUser, async (req, res) => {
         if (!user) {
             return res.status(400).json("User not found")
         }
+        await Question.deleteMany({ user })
         await User.findByIdAndDelete(userId)
+        await QuestionAnswer.deleteMany({user})
         return res.json("Account deleted successfully")
     } catch (error) {
         console.log(error);
