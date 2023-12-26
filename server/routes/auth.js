@@ -97,7 +97,7 @@ router.post("/login", [
         const user = await User.findOne({ email })
         if (!user) {
             const success = false
-            return res.status(400).json({ success, error: "User doesn't exits with email" })
+            return res.status(400).json({ success, error: "User doesn't exits with email", redirectUrl: "/createUser" })
         }
         const passwordCompare = await bcrypt.compare(password, user.password)
         if (!passwordCompare) {
@@ -139,7 +139,35 @@ router.get("/getUser", fetchUser, async (req, res) => {
     }
 })
 
-// Route 4: get all users info
+// route 4: to update user info
+router.put("/updateUserName",
+    body("name", "Enter your name").isLength({ min: 3 }),
+    fetchUser, async (req, res) => {
+        try {
+            const userId = req.user.id
+            const errors = validationResult(req)
+            const { name } = req.body
+            if (!errors.isEmpty()) {
+                return res.status(400).json({ errors: errors.array() })
+            }
+
+            // first check whether user exists with this userId
+            const user = await User.findById(userId)
+            if (!user) {
+                return res.status(400).json("user not found")
+            }
+            // const updatedUserName = await User.findByIdAndUpdate(userId, name,{new:true})
+            user.name = name
+            await user.save()
+            res.json({ success: true, user })
+        } catch (error) {
+            console.error(error);
+            return res.status(400).json("Internal server error")
+        }
+    }
+)
+
+// Route 5: get all users info
 router.get("/getAllUsers", async (req, res) => {
     try {
         const errors = validationResult(req)
@@ -153,22 +181,21 @@ router.get("/getAllUsers", async (req, res) => {
     }
 })
 
-// route 5: to upload user image
+// route 6: to upload user image
 router.post("/uploadImage", fetchUser, upload.single("profileImage"), async (req, res) => {
     try {
-
         const userId = req.user.id
         const { mimetype } = req.file
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() })
         }
-        const result = await User.findByIdAndUpdate(userId);
-        result.profileImage = {
+        const user = await User.findById(userId);
+        user.profileImage = {
             data: req.file.filename,
             contentType: mimetype,
         };
-        await result.save();
+        await user.save();
 
         console.log("user image is succesfully updated");
         res.send({ success: true })
@@ -178,7 +205,35 @@ router.post("/uploadImage", fetchUser, upload.single("profileImage"), async (req
     }
 })
 
-// Route 6 : Delete user by userId if logged in
+// route 7: to delete user photo
+router.delete("/removeImage/:id", fetchUser, async (req, res) => {
+    try {
+        const userId = req.user.id
+        const loggedUserId = req.params.id
+
+        // check if the logged user id matched the route paramter id
+        if (!loggedUserId === userId) {
+            return res.status(403).json({ error: "Unauthoried access" })
+        }
+
+        // find the user with userId
+        const user = await User.findById(userId)
+
+        if (!user) {
+            return res.status(400).json("user not found")
+        }
+
+
+        user.profileImage = null
+        await user.save()
+        console.log("user image removed successfully!")
+        res.json({ success: true })
+    } catch (error) {
+        console.error(error);
+    }
+})
+
+// Route 8 : Delete user by userId if logged in
 router.delete("/removeUser/:id", fetchUser, async (req, res) => {
     try {
         const userId = req.user.id
@@ -187,8 +242,9 @@ router.delete("/removeUser/:id", fetchUser, async (req, res) => {
             return res.status(400).json("User not found")
         }
         await Question.deleteMany({ user })
+        // await Question.updateMany({ "votes.userId": userId }, { $pull: { votes: { userId: userId } } })
         await User.findByIdAndDelete(userId)
-        await QuestionAnswer.deleteMany({user})
+        await QuestionAnswer.deleteMany({ user })
         return res.json("Account deleted successfully")
     } catch (error) {
         console.log(error);
