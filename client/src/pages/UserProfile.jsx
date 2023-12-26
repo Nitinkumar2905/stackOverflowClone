@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { FaPencilAlt, FaPlus } from "react-icons/fa";
+import { FaArrowLeft, FaPencilAlt, FaPlus } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -19,7 +19,7 @@ const UserProfile = () => {
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
-    
+
     // show the image preview
     if (selectedFile) {
       const reader = new FileReader();
@@ -58,8 +58,8 @@ const UserProfile = () => {
             border: "2px solid rgb(251,146,60)",
           },
         });
-        setFile(null)
-        await handleGetUser()
+        setFile(null);
+        await handleGetUser();
       } else {
         toast.error("Some technical issue occured", {
           style: {
@@ -125,32 +125,64 @@ const UserProfile = () => {
     }
   };
 
+  const handleDeleteUserImage = async () => {
+    try {
+      const response = await fetch(
+        `${host}/removeImage/${loggedUserDetails.user._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "auth-token": token,
+          },
+        }
+      );
+      if (response.ok) {
+        toast.success("image remove successfully!", {
+          style: {
+            color: "black",
+            backgroundColor: "white",
+            borderRadius: "10px",
+            border: "2px solid rgb(251,146,60)",
+          },
+        });
+        await handleGetUser();
+        setImagePreview(null);
+        setFile(null);
+        // await localStorage.removeItem("token");
+        // navigate("/home");
+        console.log("image removed");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       <div className="flex w-[90%] mx-auto justify-center">
         <div className="flex space-x-5 w-full h-[90vh]">
           <div className="w-[20%] h-full mx-auto bg-gray-50 flex justify-center">
             <Link
-              className="my-4 border-[1px] border-sky-800 bg-sky-600 text-white h-fit rounded px-4 py-2"
+              className="flex items-center my-4 border-[1px] border-sky-800 bg-sky-600 text-white h-fit rounded px-4 py-2"
               to="/home"
             >
-              &lt; Back to Home
+              <FaArrowLeft className="mx-1" /> Back to Home
             </Link>
           </div>
           <div className="flex flex-col w-[96%] space-y-10 bg-gray-50">
             <div className="m-4">
               <div className="flex w-full justify-between">
-                <div className="flex w-full space-x-2">
+                <div className="flex w-[70%] space-x-2">
                   {/* user image */}
                   {!loggedUserDetails?.user?.profileImage?.data && (
-                    <div className=" w-1/4 space-y-3 p-2">
+                    <div className="w-fit space-y-3 p-2">
                       {!imagePreview && (
                         <input
                           ref={ref}
                           type="file"
                           accept="image/*"
                           name="profileImage"
-                          className="hidden"
+                          className="hidden w-fit"
                           onChange={handleFileChange}
                         />
                       )}
@@ -166,25 +198,33 @@ const UserProfile = () => {
                         <img
                           src={imagePreview}
                           alt=""
-                          className="mt-2 max-w-full max-h-40 object-cover"
+                          className="w-[100px] h-[100px] mt-2 object-cover"
                         />
                       )}
-                      <button
-                        onClick={handleUpload}
-                        className="border-[1px] rounded border-gray-500 px-3 py-1 text-sm"
-                      >
-                        Upload
-                      </button>
+                      {imagePreview && (
+                        <button
+                          onClick={handleUpload}
+                          className="border-[1px] rounded border-gray-500 px-3 py-1 text-sm"
+                        >
+                          Upload
+                        </button>
+                      )}
                     </div>
                   )}
                   {loggedUserDetails?.user?.profileImage?.data ? (
                     <div className="relative">
                       <img
-                        className="w-[80px] h-[80px] rounded-full content-center"
+                        className="w-[120px] h-[120px] rounded-sm content-normal object-cover"
                         src={`${imageHost}${loggedUserDetails?.user?.profileImage?.data}`}
                         alt=""
                       />
-                      <span className=""><FaPencilAlt/></span>
+                      <span
+                        onClick={handleDeleteUserImage}
+                        className="cursor-pointer text-xs flex my-2 border-[1px] border-gray-500 py-1 px-2 items-center rounded"
+                      >
+                        <AiFillDelete />
+                        remove photo
+                      </span>
                     </div>
                   ) : null}
                   <div className="flex flex-col items-start">
@@ -199,16 +239,18 @@ const UserProfile = () => {
                     {/* <div>user other details</div> */}
                   </div>
                 </div>
-                <div className="text-xs flex  cursor-pointer border-[1px] rounded-lg border-gray-600 h-fit w-32 px-2 py-2">
-                  <FaPencilAlt className="mt-[2.5px] mx-2"></FaPencilAlt>
-                  Edit profile
-                </div>
-                <div
-                  onClick={handleDeleteUser}
-                  className="text-xs flex  cursor-pointer border-[1px] rounded-lg border-gray-600 h-fit w-32 px-2 py-2"
-                >
-                  <AiFillDelete className="mt-[2.5px] mx-2"></AiFillDelete>
-                  Delete Account
+                <div className="w-[26%] flex justify-between">
+                  <div className="text-xs flex  cursor-pointer border-[1px] rounded-lg border-gray-600 h-fit w-32 px-2 py-2">
+                    <FaPencilAlt className="mt-[2.5px] mx-2"></FaPencilAlt>
+                    Edit profile
+                  </div>
+                  <div
+                    onClick={handleDeleteUser}
+                    className="text-xs flex  cursor-pointer border-[1px] rounded-lg border-gray-600 h-fit w-32 px-2 py-2"
+                  >
+                    <AiFillDelete className="mt-[2.5px] mx-2"></AiFillDelete>
+                    Delete Account
+                  </div>
                 </div>
               </div>
               {/* other part */}
