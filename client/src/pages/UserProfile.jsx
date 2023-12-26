@@ -19,6 +19,7 @@ const UserProfile = () => {
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
+    
     // show the image preview
     if (selectedFile) {
       const reader = new FileReader();
@@ -45,11 +46,10 @@ const UserProfile = () => {
     try {
       const response = await axios.post(`${host}/uploadImage`, formData, {
         headers: {
-          // "Content-Type": "multipart/form-data",
           "auth-token": token,
         },
       });
-      if (response.ok) {
+      if (response.status >= 200 && response.status < 300) {
         toast.success("Image uploaded successfully!", {
           style: {
             color: "black",
@@ -58,6 +58,8 @@ const UserProfile = () => {
             border: "2px solid rgb(251,146,60)",
           },
         });
+        setFile(null)
+        await handleGetUser()
       } else {
         toast.error("Some technical issue occured", {
           style: {
@@ -92,7 +94,7 @@ const UserProfile = () => {
   useEffect(() => {
     handleGetUser();
     // eslint-disable-next-line
-  }, [file]);
+  }, []);
 
   const handleDeleteUser = async () => {
     try {
