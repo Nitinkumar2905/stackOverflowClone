@@ -8,7 +8,7 @@ import {
   FaLink,
 } from "react-icons/fa";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [passwordType, setPasswordType] = useState("password");
@@ -59,6 +59,7 @@ const Login = () => {
         });
       } else {
         console.error("password incorrect");
+        redirect("/signUp")
       }
     } catch (error) {
       console.error(error);
