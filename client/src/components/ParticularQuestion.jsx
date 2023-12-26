@@ -274,7 +274,7 @@ const ParticularQuestion = () => {
           </div>
           <div className="flex w-full justify-between items-center">
             <div className="text-sm text-gray-400">
-              Asked{" "}
+              Asked on {" "}
               <span className="text-black">
                 {formatTime(particularQuestionData.date)}
               </span>
@@ -353,7 +353,7 @@ const ParticularQuestion = () => {
                       <span className="">{answer.answerBody}</span>
                       <div className="flex items-center justify-between">
                         <div className="text-sm text-gray-400">
-                          answered{" "}
+                          answered on {" "}
                           <span className="text-black">
                             {formatTime(answer.date)}
                           </span>
