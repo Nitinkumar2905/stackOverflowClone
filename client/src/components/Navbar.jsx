@@ -73,7 +73,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="sticky top-0 w-full bg-white flex justify-center border-t-[3px] border-t-orange-400 border-b-[1px] border-b-gray-300 py-3">
+      <div className="z-10 sticky top-0 w-full bg-white flex justify-center border-t-[3px] border-t-orange-400 border-b-[1px] border-b-gray-300 py-3">
         <div className="flex justify-between w-[90%] items-center h-8">
           {/* navbar icon and hamburger */}
           <div className="flex h-full items-center space-x-6">
