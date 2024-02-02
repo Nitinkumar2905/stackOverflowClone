@@ -58,7 +58,6 @@ const SignUp = () => {
         if (response.ok) {
           const data = await response.json();
           localStorage.setItem("token", data.authToken);
-          console.log(data);
           toast.success("Account created successfully", {
             color: "black",
             backgroundColor: "white",
@@ -71,8 +70,14 @@ const SignUp = () => {
         console.error(error);
       }
     } else {
-      console.log("both password should match.");
-      console.log(password, confirmPassword);
+      toast.error("Both password doesn't match", {
+        style:{
+          color:"black",
+          backgroundColor:"white",
+          borderRadius:"10px",
+          border:"2px solid rgb(251,146,60)"
+        }
+      })
     }
   };
   return (

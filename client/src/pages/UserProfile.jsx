@@ -160,8 +160,8 @@ const UserProfile = () => {
   return (
     <>
       <div className="flex w-[90%] mx-auto justify-center">
-        <div className="flex space-x-5 w-full h-[90vh]">
-          <div className="w-[20%] h-full mx-auto bg-gray-50 flex justify-center">
+        <div className="flex flex-col md:flex-row space-y-5 md:space-y-0 md:space-x-5 w-full md:h-[90vh]">
+          <div className="w-full md:w-[20%] h-full mx-auto bg-gray-50 flex justify-center">
             <Link
               className="flex items-center my-4 border-[1px] border-sky-800 bg-sky-600 text-white h-fit rounded px-4 py-2"
               to="/home"
@@ -169,10 +169,10 @@ const UserProfile = () => {
               <FaArrowLeft className="mx-1" /> Back to Home
             </Link>
           </div>
-          <div className="flex flex-col w-[96%] space-y-10 bg-gray-50">
+          <div className="flex flex-col w-[100%] bg-gray-50">
             <div className="m-4">
-              <div className="flex w-full justify-between">
-                <div className="flex w-[70%] space-x-2">
+              <div className="flex flex-col w-full justify-between">
+                <div className="flex md:w-[70%] space-x-2">
                   {/* user image */}
                   {!loggedUserDetails?.user?.profileImage?.data && (
                     <div className="w-fit space-y-3 p-2">
@@ -212,7 +212,7 @@ const UserProfile = () => {
                     </div>
                   )}
                   {loggedUserDetails?.user?.profileImage?.data ? (
-                    <div className="relative">
+                    <div className="w-full relative">
                       <img
                         className="w-[120px] h-[120px] rounded-sm content-normal object-cover"
                         src={`${imageHost}${loggedUserDetails?.user?.profileImage?.data}`}
@@ -227,26 +227,23 @@ const UserProfile = () => {
                       </span>
                     </div>
                   ) : null}
-                  <div className="flex flex-col items-start">
-                    {loggedUserDetails.user && (
-                      <div className="flex flex-col items-start m-4">
-                        <span className="font-normal text-3xl">
-                          {loggedUserDetails.user.name}
-                        </span>
-                        {/* <span>{loggedUserDetails.user.email}</span> */}
-                      </div>
-                    )}
-                    {/* <div>user other details</div> */}
-                  </div>
+                  {loggedUserDetails.user && (
+                    <div className="flex w-full flex-col items-start m-4">
+                      <span className="font-normal text-2xl md:text-3xl">
+                        {loggedUserDetails.user.name}
+                      </span>
+                      {/* <span>{loggedUserDetails.user.email}</span> */}
+                    </div>
+                  )}
                 </div>
-                <div className="w-[26%] flex justify-between">
-                  <div className="text-xs flex  cursor-pointer border-[1px] rounded-lg border-gray-600 h-fit w-32 px-2 py-2">
+                <div className="md:w-[26%] flex justify-between">
+                  <div className="text-xs flex  cursor-pointer border-[1px] rounded-md border-gray-600 h-fit w-36 md:w-32 px-2 py-2">
                     <FaPencilAlt className="mt-[2.5px] mx-2"></FaPencilAlt>
                     Edit profile
                   </div>
                   <div
                     onClick={handleDeleteUser}
-                    className="text-xs flex  cursor-pointer border-[1px] rounded-lg border-gray-600 h-fit w-32 px-2 py-2"
+                    className="text-xs flex  cursor-pointer border-[1px] rounded-md border-gray-600 h-fit w-36 md:w-32 px-2 py-2"
                   >
                     <AiFillDelete className="mt-[2.5px] mx-2"></AiFillDelete>
                     Delete Account
@@ -254,7 +251,7 @@ const UserProfile = () => {
                 </div>
               </div>
               {/* other part */}
-              <div className="flex flex-col space-y-4 w-full h-fit mt-10">
+              <div className="hidden flex-col space-y-4 w-full h-fit mt-10">
                 {/* 1st part w-full */}
                 <div className="flex space-x-4 items-center mx-auto border-[1px] border-gray-500 rounded bg-gray-100 w-full h-12">
                   <div className="flex justify-around w-[40%]">

@@ -43,7 +43,7 @@ const HomeSidebar = ({ dropdown, share, teams, hamburgerMenuDisplay }) => {
   return (
     <>
       <div
-        className={`rounded-none bg-white h-[92vh] border-r-[1px] border-gray-200 py-2 ${hamburgerMenuDisplay} flex-col items-center w-full`}
+        className={`hidden md:flex rounded-none bg-white h-[92vh] border-r-[1px] border-gray-200 py-2 ${hamburgerMenuDisplay} flex-col items-center w-full`}
       >
         <div className="flex flex-col items-start py-4 w-full space-y-2">
           <div className="text-sm flex flex-col items-start w-full space-y-1">
@@ -93,13 +93,13 @@ const HomeSidebar = ({ dropdown, share, teams, hamburgerMenuDisplay }) => {
             <Link
               to="/saved"
               className={`flex items-center h-fit space-x-2 w-full py-2 px-2 ${
-                location.pathname === "/users" ? "" : "hover:bg-gray-100"
+                location.pathname === "/saved" ? "" : "hover:bg-gray-100"
               } ${
-                location.pathname === "/users"
+                location.pathname === "/saved"
                   ? "bg-gray-200"
                   : "bg-transparent"
               } ${
-                location.pathname === "/users" ? "font-bold" : "font-normal"
+                location.pathname === "/saved" ? "font-bold" : "font-normal"
               } cursor-pointer rounded-l-md`}
             >
               <FaSave />

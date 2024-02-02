@@ -54,12 +54,12 @@ const AskQuestion = () => {
     <>
       <div className="flex w-[90%] mx-auto h-[120vh]">
         <div className="flex flex-col justify-center items-center space-y-10 h-full mx-8 w-full">
-          <span className="font-bold text-3xl w-full">
+          <span className="font-bold text-2xl lg:text-3xl w-full">
             Ask a public question
           </span>
           <div className="flex flex-col items-start h-[100vh] w-full space-y-10">
             {/* instruction to write a good question */}
-            <div className="text-sm bg-blue-50 border-[1px] rounded-md border-sky-600 lg:h-[35vh] w-[70%] p-5 space-y-2">
+            <div className="text-sm bg-blue-50 border-[1px] rounded-md border-sky-600 lg:h-[35vh] md:w-[70%] p-5 space-y-2">
               <span className="text-xl">Writing a good question</span>
               <div className="space-y-2">
                 <div className="flex flex-col">
@@ -101,7 +101,7 @@ const AskQuestion = () => {
             </div>
             <form
               onSubmit={handlePostQuestion}
-              className="w-[70%] py-5 space-y-6"
+              className="md:w-[70%] py-5 space-y-6"
             >
               {/* question title */}
               <div className="rounded border-[1px] border-gray-300 p-5 flex flex-col w-full items-start space-y-1">
@@ -170,7 +170,7 @@ const AskQuestion = () => {
               {/* button to post question */}
               <button
                 type="submit"
-                className="px-4 text-white py-2 text-lg bg-sky-600 hover:bg-sky-700 focus:bg-sky-700 rounded border-sky-900"
+                className="px-4 text-white py-2 text-sm md:text-lg bg-sky-600 hover:bg-sky-700 focus:bg-sky-700 rounded border-sky-900"
               >
                 Post your question
               </button>

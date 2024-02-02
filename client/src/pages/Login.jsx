@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import {
   FaStackOverflow,
@@ -58,6 +58,14 @@ const Login = () => {
           },
         });
       } else {
+        toast.error("Incorrect credentials", {
+          style: {
+            color: "black",
+            backgroundColor: "white",
+            borderRadius: "10px",
+            border: "2px solid rgb(251,146,60)",
+          },
+        });
         console.error("password incorrect");
         redirect("/signUp")
       }
@@ -136,8 +144,6 @@ const Login = () => {
                   <input
                     className=" focus:placeholder:text-blue-500  focus:outline-none px-2  w-full"
                     type={passwordType}
-                    // type="text"
-                    // ref={ref}
                     value={credentials.password}
                     onChange={onChange}
                     name="password"

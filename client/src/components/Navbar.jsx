@@ -20,10 +20,13 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const ref = useRef();
+  const imageHost = "http://localhost:8000/";
 
+  const [loggedUserData, setLoggedUserData] = useState(null);
   const [hamburgerMenuDisplay, setHamburgerMenuDisplay] = useState("hidden");
   const [hamburgerToggle, setHamburgerToggle] = useState(false);
   const token = localStorage.getItem("token");
+  const host = "http://localhost:8000/api/auth";
 
   const toggleHamburgerMenu = (e) => {
     e.preventDefault();
@@ -54,9 +57,6 @@ const Navbar = () => {
     }
   };
 
-  const [loggedUserDetails, setLoggedUserDetails] = useState([]);
-  const host = "http://localhost:8000/api/auth";
-
   const handleGetUser = async () => {
     const response = await fetch(`${host}/getUser`, {
       method: "GET",
@@ -68,6 +68,7 @@ const Navbar = () => {
     if (response.ok) {
       const data = await response.json();
       console.log(data);
+      setLoggedUserData(data.user);
     }
   };
 
@@ -98,7 +99,7 @@ const Navbar = () => {
               </Link>
             ) : (
               <Link to="/welcome">
-                <img className="h-7" src={stackOverflowIcon} alt="" />
+                <img className="h-6" src={stackOverflowIcon} alt="" />
               </Link>
             )}
           </div>
@@ -106,7 +107,7 @@ const Navbar = () => {
           <div className="space-x-5 px-3">
             {!token && (
               <Link
-                className={` text-sm text-gray-500 hover:text-gray-900 ${
+                className={`hidden md:flex text-sm text-gray-500 hover:text-gray-900 ${
                   location.pathname === "/about" ? "underline" : "no-underline"
                 } ${
                   location.pathname === "/about"
@@ -119,7 +120,7 @@ const Navbar = () => {
               </Link>
             )}
             <Link
-              className={` text-sm text-gray-500 hover:text-gray-900 ${
+              className={`text-xs md:text-sm text-gray-500 hover:text-gray-900 ${
                 location.pathname === "/product" ? "underline" : "no-underline"
               } ${
                 location.pathname === "/product"
@@ -132,7 +133,7 @@ const Navbar = () => {
             </Link>
             {!token && (
               <Link
-                className={` text-sm text-gray-500 hover:text-gray-900 ${
+                className={`hidden md:flex text-sm text-gray-500 hover:text-gray-900 ${
                   location.pathname === "/teams" ? "underline" : "no-underline"
                 } ${
                   location.pathname === "/teams"
@@ -147,7 +148,7 @@ const Navbar = () => {
           </div>
           {/* search bar */}
           <div
-            className={`border-[1px] border-gray-400 rounded-md w-[40%] ${
+            className={`hidden md:flex border-[1px] border-gray-400 rounded-md w-[40%] ${
               token ? "xl:w-[65%]" : "xl:w-[55%]"
             } px-3 h-full py-1`}
           >
@@ -162,16 +163,16 @@ const Navbar = () => {
           </div>
           {/* authentication buttons */}
           {!token ? (
-            <div className="flex justify-center items-center space-x-2 h-full">
+            <div className="w-1/2 flex justify-center items-center space-x-2 h-full">
               <Link
                 to="/login"
-                className="text-sm border-[1px] border-blue-600 text-blue-700 hover:bg-blue-200 rounded-md py-[.30rem] px-2"
+                className="w-full text-xs md:text-sm border-[1px] border-blue-600 text-blue-700 hover:bg-blue-200 rounded-md py-[.30rem] px-2"
               >
                 Log in
               </Link>
               <Link
                 to="signUp"
-                className="text-sm border-[1px] border-blue-600 text-white bg-sky-600 hover:bg-sky-700 rounded-md py-[.30rem] px-2"
+                className="w-full text-xs md:text-sm border-[1px] border-blue-600 text-white bg-sky-600 hover:bg-sky-700 rounded-md py-[.30rem] px-2"
               >
                 Sign up
               </Link>

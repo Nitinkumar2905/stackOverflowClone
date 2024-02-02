@@ -3,6 +3,8 @@ import HomeSidebar from "./HomeSidebar";
 
 const AllUsers = () => {
   const host = "http://localhost:8000/api/auth";
+  const imageHost = "http://localhost:8000/";
+
   const [usersData, setUsersData] = useState([]);
   const fetchAllUsers = async () => {
     const response = await fetch(`${host}/getAllUsers`, {
@@ -21,19 +23,26 @@ const AllUsers = () => {
     fetchAllUsers();
   }, [host]);
   return (
-    <div className="space-x-3 flex w-full">
-      {/* <HomeSidebar></HomeSidebar> */}
-      <div className="flex items-start w-fit mx-auto flex-col space-y-3">
+    <div className="flex justify-between md:w-screen md:ml-5 lg:mx-0 lg:w-[57%] h-[88vh] hideScrollbar overflow-y-auto mt-7">
+      <div className="grid grid-flow-row grid-cols-3 h-fit gap-4">
         {usersData &&
           usersData.map((user, index) => {
             return (
               <>
-                <div className="flex flex-col items-start" key={index}>
-                  <div className="flex ">
-                    {user.email}
-                    {user.name}
-                    {user._id}
+                <div
+                  className="flex justify-between w-[14rem] text-sm space-x-2 border-[0px] shadow-gray-300 shadow-md rounded-md p-2 border-sky-600"
+                  key={index}
+                >
+                  <img
+                    className="w-[50px] h-[50px] rounded-md content-normal object-cover"
+                    src={`${imageHost}${user?.profileImage?.data}`}
+                    alt=""
+                  />
+                  <div className="flex flex-col w-full items-start justify-center h-full">
+                    <span className="text-blue-600 font-semibold">{user.name}</span>
+                    <span>{user.email}</span>
                   </div>
+                  {/* <span>{user._id}</span> */}
                 </div>
               </>
             );

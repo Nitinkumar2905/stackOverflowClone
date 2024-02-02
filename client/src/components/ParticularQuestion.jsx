@@ -260,19 +260,19 @@ const ParticularQuestion = () => {
     >
       <div className="flex flex-col w-full pr-4">
         <div className="flex flex-col w-full space-y-3">
-          <div className="flex justify-between items-start h-fit w-full ">
-            <span className="text-xl w-[83%] text-blue-500 font-medium">
+          <div className="flex flex-col-reverse lg:flex-row justify-between items-start h-fit w-full ">
+            <span className="mt-2 lg:mt-0 text-base lg:text-xl md:w-[83%] text-blue-500 font-medium">
               {particularQuestionData.QuestionTitle}
             </span>
             <button
               onClick={handleAskQuestion}
               // to="/askQuestion"
-              className="text-sm px-4 py-2 bg-sky-600 text-white rounded border-sky-700 broder-[1px]"
+              className="text-xs md:text-sm px-4 py-2 bg-sky-600 text-white rounded border-sky-700 broder-[1px]"
             >
               Ask Question
             </button>
           </div>
-          <div className="flex w-full justify-between items-center">
+          <div className="flex flex-col md:flex-row w-full justify-between md:items-center">
             <div className="text-sm text-gray-400">
               Asked on {" "}
               <span className="text-black">
@@ -307,7 +307,7 @@ const ParticularQuestion = () => {
             </div>
           )}
           <div className="flex flex-col space-y-2 h-full w-full">
-            <p className="">{particularQuestionData.QuestionDetails}</p>
+            <p className="text-sm lg:text-base">{particularQuestionData.QuestionDetails}</p>
             {/* tags and other data */}
             <div className="flex space-x-2">
               {particularQuestionData.QuestionTags &&
@@ -315,7 +315,7 @@ const ParticularQuestion = () => {
                   return (
                     <>
                       <div className="flex" key={index}>
-                        <span className="bg-blue-100 text-blue-500 px-2 py-1 rounded text-sm">
+                        <span className="text-xs bg-blue-100 text-blue-500 px-2 py-1 rounded md:text-sm">
                           {tag}
                         </span>
                       </div>
@@ -333,7 +333,7 @@ const ParticularQuestion = () => {
               {fetchQuestionAnswer.answers &&
                 fetchQuestionAnswer.answers.length}
             </span>
-            <span className="text-lg font-medium">
+            <span className="text-base md:text-lg font-medium">
               {fetchQuestionAnswer.answers
                 ? fetchQuestionAnswer.answers.length > 1
                   ? "Answers"
@@ -372,7 +372,7 @@ const ParticularQuestion = () => {
           </div>
         </div>
         <div className="flex flex-col space-y-6 mt-4">
-          <p className="tracking-wide text-lg">
+          <p className="tracking-wide text-sm md:text-lg">
             Know someone who can answer? Share a link to this{" "}
             <span className="text-blue-500">quesiton</span> via{" "}
             <span className="text-blue-500">email</span>,{" "}
@@ -381,9 +381,9 @@ const ParticularQuestion = () => {
             <span className="text-blue-500">twitter</span>
           </p>
           <div className="flex flex-col items-start space-y-2 pb-10 w-full">
-            <span className="text-lg">Your answer</span>
+            <span className="text-base md:text-lg">Your answer</span>
             <textarea
-              className="w-full focus:placeholder:outline-none border-[1px] placeholder:text-lg border-gray-400 rounded py-2 px-4"
+              className="w-full focus:placeholder:outline-none border-[1px] placeholder:text-sm md:placeholder:text-lg border-gray-400 rounded py-2 px-4"
               type="text"
               name="answerBody"
               onChange={onChange}
@@ -391,7 +391,7 @@ const ParticularQuestion = () => {
               placeholder="Write your answer here for above asked question"
             ></textarea>
             <button
-              className="bg-sky-600 border-sky-700 border-[1px] rounded px-4 py-1 text-white"
+              className="text-sm md:text-base bg-sky-600 border-sky-700 border-[1px] rounded px-4 py-1 text-white"
               onClick={handlePostQuestionAnswer}
             >
               Post Answer

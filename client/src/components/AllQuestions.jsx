@@ -87,15 +87,15 @@ const AllQuestions = () => {
       <div className="pr-4 flex flex-col items-start w-full space-y-10">
         <div className="flex flex-col space-y-4 w-full">
           <div className="flex justify-between w-full items-center">
-            <div className="text-3xl">All Questions</div>
+            <div className="text-xl md:text-3xl">All Questions</div>
             <button
               onClick={handleNavigateAskQuestion}
-              className="border-[1px] border-sky-700 bg-sky-600 text-sm px-2 py-2 rounded text-center text-white"
+              className="border-[1px] border-sky-700 bg-sky-600 text-xs md:text-sm px-2 py-2 rounded text-center text-white"
             >
               Ask Question
             </button>
           </div>
-          <div className="font-medium py-1 px-2 bg-black text-white border-black rounded  border-2 w-fit">
+          <div className="text-xs md:text-sm font-medium py-1 px-2 bg-black text-white border-black rounded  border-2 w-fit">
             No. of Question:{" "}
             <span className="font-normal">{questionsData.length}</span>
           </div>
@@ -110,22 +110,22 @@ const AllQuestions = () => {
                     <div className="flex flex-col space-y-1 items-start">
                       <Link
                         to={`/questions/${question._id}`}
-                        className="font-medium text-blue-500"
+                        className="text-sm md:text-base font-medium text-blue-500"
                       >
                         {question.QuestionTitle}
                       </Link>
-                      <p className="text-sm">
+                      <p className="text-xs md:text-sm">
                         {question.QuestionDetails.length > 340
                           ? `${question.QuestionDetails.slice(0, 340)}...`
                           : question.QuestionDetails}
                       </p>
                     </div>
-                    <div className="flex justify-between space-x-2">
+                    <div className="flex flex-col md:flex-row justify-between space-y-2 md:space-x-2">
                       <div className="space-x-2">
                         {question.QuestionTags.map((tag) => {
                           return (
                             <>
-                              <span className="text-sm bg-blue-100 px-2 text-blue-500 py-1 rounded">
+                              <span className="text-xs md:text-sm bg-blue-100 px-2 text-blue-500 py-1 rounded">
                                 {tag}
                               </span>
                             </>

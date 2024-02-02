@@ -23,6 +23,7 @@ function App() {
         <Route exact index element={<Home />} />
         <Route path="/" element={<Home />}>
           <Route path="/home" element={<AllQuestions />} />
+          <Route path="/users" element={<AllUsers/>}/>
           <Route path="/questions" element={<AllQuestions />} />
           <Route path="/tags" element={<Tags />} />
           <Route path="/questions/:id" element={<ParticularQuestion />} />
@@ -31,7 +32,8 @@ function App() {
         <Route exact path="/signUp" element={<SignUp />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/userProfile" element={<UserProfile />} />
-        <Route exact path="/users" element={<AllUsers />} />
+        <Route exact path="/userProfile/:id" element={<UserProfile/>}/>
+        {/* <Route exact path="/users" element={<AllUsers />} /> */}
       </Routes>
     </Router>
     // </AuthState>
