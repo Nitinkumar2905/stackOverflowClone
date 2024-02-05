@@ -40,7 +40,7 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
           "auth-token": token,
-          credentials: "include",
+          // credentials: "include",
         },
         body: JSON.stringify({
           email: credentials.email,
