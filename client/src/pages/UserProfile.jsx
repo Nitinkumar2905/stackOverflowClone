@@ -139,8 +139,8 @@ const UserProfile = () => {
           method: "DELETE",
           headers: {
             "auth-token": token,
-            credentials: "include",
           },
+          credentials: "include",
         }
       );
       if (response.ok) {

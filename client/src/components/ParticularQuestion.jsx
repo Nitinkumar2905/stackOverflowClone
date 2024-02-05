@@ -182,8 +182,8 @@ const ParticularQuestion = () => {
           headers: {
             "Content-Type": "application/json",
             "auth-token": token,
-            credentials: "include",
           },
+          credentials: "include",
           body: JSON.stringify({
             answerBody,
           }),

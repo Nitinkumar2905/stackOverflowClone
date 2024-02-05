@@ -65,8 +65,8 @@ const Navbar = () => {
       headers: {
         "Content-Type": "application/json",
         "auth-token": token,
-        credentials: "include",
       },
+      credentials: "include",
     });
     if (response.ok) {
       const data = await response.json();

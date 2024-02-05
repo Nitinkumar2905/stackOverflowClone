@@ -132,7 +132,7 @@ router.post("/login", [
     body("password", "Password should contain atleast 8 characters").exists()
 ], async (req, res) => {
     // if there are bad requests , return errors
-    const errors = await validationResult(req)
+    const errors = validationResult(req)
     if (!errors.isEmpty) {
         const success = false
         return res.status().json({ success, errors: errors.array() })
@@ -164,7 +164,7 @@ router.post("/login", [
 
     } catch (error) {
         console.log(error);
-        res.json({ erros: "Internal server erros" })
+        res.json({ erros: "Internal server error" })
     }
 })
 
@@ -299,6 +299,4 @@ router.delete("/removeUser/:id", fetchUser, async (req, res) => {
 })
 
 // Route 9: Send email verification token
-
-
 module.exports = router;

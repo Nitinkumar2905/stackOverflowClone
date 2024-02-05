@@ -46,8 +46,8 @@ const AllQuestions = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          credentials: "include",
         },
+        credentials: "include",
       });
       if (response.ok) {
         const data = await response.json();

@@ -18,8 +18,6 @@ const Login = () => {
   const token = localStorage.getItem("token");
   // const host = "http://localhost:8000/api/auth";
   const host = "https://stackoverflowclone-backend.vercel.app/api/auth"
-
-
   const togglePasswordType = () => {
     if (passwordType === "password") {
       setPasswordType("text");
@@ -40,8 +38,8 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
           "auth-token": token,
-          // credentials: "include",
         },
+        credentials: "include",
         body: JSON.stringify({
           email: credentials.email,
           password: credentials.password,
