@@ -200,7 +200,7 @@ router.post("/question/downVote/:id", fetchUser, async (req, res) => {
         if (question.user.toString() === userId) {
             return res.status(500).json({ error: "you can't vote as you are the author of the question" })
         }
-        
+
         question.votes = question.upVotes.length - question.downVotes.length
 
         await question.save()
@@ -263,6 +263,20 @@ router.delete("/delete/:id", fetchUser, async (req, res) => {
 
     } catch (error) {
         console.error(error);
+    }
+})
+
+router.post("/savePost", fetchUser, async (req, res) => {
+    try {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() })
+        }
+        const questionId = req.params.id
+        const loggedUserId = req.user.id
+        
+    } catch (error) {
+
     }
 })
 

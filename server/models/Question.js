@@ -37,6 +37,10 @@ const QuestionSchema = new Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    saved: {
+        type: String,
+        default: false
     }
 })
 
