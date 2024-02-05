@@ -8,7 +8,9 @@ const AskQuestion = () => {
     QuestionDetails: "",
     QuestionTags: [],
   });
-  const host = "http://localhost:8000/api/questions";
+  // const host = "http://localhost:8000/api/questions";
+  const host = "https://stackoverflowclone-backend.vercel.app/api/questions"
+
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 

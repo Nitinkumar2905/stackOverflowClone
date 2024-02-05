@@ -12,8 +12,11 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const ref = useRef();
 
-  const host = "http://localhost:8000/api/auth";
-  const imageHost = "http://localhost:8000/";
+  // const host = "http://localhost:8000/api/auth";
+  const host = "https://stackoverflowclone-backend.vercel.app/api/auth"
+  // const imageHost = "http://localhost:8000/";
+  const imageHost = "https://stackoverflowclone-backend.vercel.app/"
+
   const [file, setFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 

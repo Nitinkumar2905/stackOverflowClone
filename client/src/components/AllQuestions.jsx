@@ -5,7 +5,8 @@ import toast from "react-hot-toast";
 
 const AllQuestions = () => {
   const [questionsData, setQuestionsData] = useState([]);
-  const host = "http://localhost:8000/api/questions";
+  // const host = "http://localhost:8000/api/questions";
+  const host = "https://stackoverflowclone-backend.vercel.app"
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
