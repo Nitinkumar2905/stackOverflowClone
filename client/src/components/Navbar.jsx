@@ -80,9 +80,9 @@ const Navbar = () => {
           <div className="flex h-full items-center space-x-6">
             {!token && (
               <button
-                className={`cursor-pointer ${
-                  location.pathname === "/welcome" ? "flex" : "hidden"
-                }`}
+                className={`cursor-pointer 
+                lg:${location.pathname === "/welcome" ? "flex" : "hidden"}
+                `}
                 ref={ref}
                 onClick={toggleHamburgerMenu}
               >
@@ -104,7 +104,7 @@ const Navbar = () => {
             )}
           </div>
           {/* navlink */}
-          <div className="space-x-5 px-3">
+          <div className="md:flex items-center space-x-5 px-3">
             {!token && (
               <Link
                 className={`hidden md:flex text-sm text-gray-500 hover:text-gray-900 ${
@@ -148,7 +148,7 @@ const Navbar = () => {
           </div>
           {/* search bar */}
           <div
-            className={`hidden md:flex border-[1px] border-gray-400 rounded-md w-[40%] ${
+            className={`hidden sm:flex border-[1px] border-gray-400 rounded-md w-[40%] sm:w-[25%] ${
               token ? "xl:w-[65%]" : "xl:w-[55%]"
             } px-3 h-full py-1`}
           >
@@ -163,16 +163,16 @@ const Navbar = () => {
           </div>
           {/* authentication buttons */}
           {!token ? (
-            <div className="w-1/2 flex justify-center items-center space-x-2 h-full">
+            <div className="flex justify-center items-center space-x-2 h-full">
               <Link
                 to="/login"
-                className="w-full text-xs md:text-sm border-[1px] border-blue-600 text-blue-700 hover:bg-blue-200 rounded-md py-[.30rem] px-2"
+                className="w-[4rem] text-xs md:text-sm border-[1px] border-blue-600 text-blue-700 hover:bg-blue-200 rounded-md py-[.30rem] px-2"
               >
                 Log in
               </Link>
               <Link
                 to="signUp"
-                className="w-full text-xs md:text-sm border-[1px] border-blue-600 text-white bg-sky-600 hover:bg-sky-700 rounded-md py-[.30rem] px-2"
+                className="w-[4rem] md:w-[5rem] text-xs md:text-sm border-[1px] border-blue-600 text-white bg-sky-600 hover:bg-sky-700 rounded-md py-[.30rem] px-2"
               >
                 Sign up
               </Link>

@@ -23,8 +23,8 @@ const AllUsers = () => {
     fetchAllUsers();
   }, [host]);
   return (
-    <div className="flex justify-between md:w-screen md:ml-5 lg:mx-0 lg:w-[57%] h-[88vh] hideScrollbar overflow-y-auto mt-7">
-      <div className="grid grid-flow-row grid-cols-3 h-fit gap-4">
+    <div className="flex justify-center w-full md:justify-between md:w-screen md:ml-5 lg:mx-0 lg:w-[57%] h-[88vh] hideScrollbar overflow-y-auto mt-7">
+      <div className="grid grid-flow-row sm:grid-cols-2 md:grid-cols-3 h-fit gap-4">
         {usersData &&
           usersData.map((user, index) => {
             return (

@@ -43,7 +43,7 @@ const HomeSidebar = ({ dropdown, share, teams, hamburgerMenuDisplay }) => {
   return (
     <>
       <div
-        className={`hidden md:flex rounded-none bg-white h-[92vh] border-r-[1px] border-gray-200 py-2 ${hamburgerMenuDisplay} flex-col items-center w-full`}
+        className={`hidden sm:flex rounded-none bg-white h-[91.8vh] border-r-[1px] border-gray-200 py-2 ${hamburgerMenuDisplay} flex-col items-center w-full sm:w-[90%]`}
       >
         <div className="flex flex-col items-start py-4 w-full space-y-2">
           <div className="text-sm flex flex-col items-start w-full space-y-1">

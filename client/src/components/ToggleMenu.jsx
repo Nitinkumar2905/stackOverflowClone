@@ -50,68 +50,80 @@ const ToggleMenu = ({
   return (
     <>
       <div
-        className={`absolute top-[3.70rem] rounded-sm bg-white h-[91.5vh] shadow-sm shadow-gray-400 py-2 ${hamburgerMenuDisplay} flex-col items-center left-20 w-1/6 `}
+        className={`absolute top-[3.70rem] rounded-sm bg-white h-[91.5vh] shadow-sm shadow-gray-400 py-2 ${hamburgerMenuDisplay} flex-col items-center -left-0 md:left-20 md:w-1/6 `}
       >
         <div className="flex flex-col items-start py-4 w-full space-y-3">
           <div className="text-sm flex flex-col items-start w-full space-y-1">
-            <Link
-              to="/home"
-              className={`flex space-x-2 items-center h-fit ${
-                location.pathname === "/" ? "" : "hover:bg-gray-100"
-              } w-full py-2 px-2 ${
-                location.pathname === "/" ? "bg-gray-200" : "bg-transparent"
-              } ${
-                location.pathname === "/" ? "font-bold" : "font-normal"
-              } cursor-pointer`}
-            >
-              <FaHome />
-              <span>Home</span>
-            </Link>
-            <Link
-              to="/questions"
-              className={`flex space-x-2 items-center h-fit ${
-                location.pathname === "/questions" ? "" : "hover:bg-gray-100"
-              } w-full py-2 px-2 ${
-                location.pathname === "/questions"
-                  ? "bg-gray-200"
-                  : "bg-transparent"
-              } ${
-                location.pathname === "/questions" ? "font-bold" : "font-normal"
-              } cursor-pointer`}
-            >
-              <FaQuestion />
-              <span>Questions</span>
-            </Link>
-            <Link
-              to="/tags"
-              className={`flex space-x-2 items-center h-fit ${
-                location.pathname === "/tags" ? "" : "hover:bg-gray-100"
-              } w-full py-2 px-2 ${
-                location.pathname === "/tags" ? "bg-gray-200" : "bg-transparent"
-              } ${
-                location.pathname === "/tags" ? "font-bold" : "font-normal"
-              } cursor-pointer`}
-            >
-              <FaTags />
-              <span>Tags</span>
-            </Link>
+            <button onClick={toggleHamburgerMenu}>
+              <Link
+                to="/home"
+                className={`flex space-x-2 items-center h-fit ${
+                  location.pathname === "/" ? "" : "hover:bg-gray-100"
+                } w-full py-2 px-2 ${
+                  location.pathname === "/" ? "bg-gray-200" : "bg-transparent"
+                } ${
+                  location.pathname === "/" ? "font-bold" : "font-normal"
+                } cursor-pointer`}
+              >
+                <FaHome />
+                <span>Home</span>
+              </Link>
+            </button>
+            <button onClick={toggleHamburgerMenu}>
+              <Link
+                to="/questions"
+                className={`flex space-x-2 items-center h-fit ${
+                  location.pathname === "/questions" ? "" : "hover:bg-gray-100"
+                } w-full py-2 px-2 ${
+                  location.pathname === "/questions"
+                    ? "bg-gray-200"
+                    : "bg-transparent"
+                } ${
+                  location.pathname === "/questions"
+                    ? "font-bold"
+                    : "font-normal"
+                } cursor-pointer`}
+              >
+                <FaQuestion />
+                <span>Questions</span>
+              </Link>
+            </button>
+            <button onClick={toggleHamburgerMenu}>
+              <Link
+                to="/tags"
+                className={`flex space-x-2 items-center h-fit ${
+                  location.pathname === "/tags" ? "" : "hover:bg-gray-100"
+                } w-full py-2 px-2 ${
+                  location.pathname === "/tags"
+                    ? "bg-gray-200"
+                    : "bg-transparent"
+                } ${
+                  location.pathname === "/tags" ? "font-bold" : "font-normal"
+                } cursor-pointer`}
+              >
+                <FaTags />
+                <span>Tags</span>
+              </Link>
+            </button>
           </div>
           <div className="text-sm flex flex-col items-start w-full space-y-1">
-            <Link
-              to="/users"
-              className={`flex items-center h-fit space-x-2 w-full py-2 px-2 ${
-                location.pathname === "/users" ? "" : "hover:bg-gray-100"
-              } ${
-                location.pathname === "/users"
-                  ? "bg-gray-200"
-                  : "bg-transparent"
-              } ${
-                location.pathname === "/users" ? "font-bold" : "font-normal"
-              } cursor-pointer`}
-            >
-              <FaUsers />
-              <span>Users</span>
-            </Link>
+            <button onClick={toggleHamburgerMenu}>
+              <Link
+                to="/users"
+                className={`flex items-center h-fit space-x-2 w-full py-2 px-2 ${
+                  location.pathname === "/users" ? "" : "hover:bg-gray-100"
+                } ${
+                  location.pathname === "/users"
+                    ? "bg-gray-200"
+                    : "bg-transparent"
+                } ${
+                  location.pathname === "/users" ? "font-bold" : "font-normal"
+                } cursor-pointer`}
+              >
+                <FaUsers />
+                <span>Users</span>
+              </Link>
+            </button>
             <Link
               to="/companies"
               className={`flex items-center h-fit space-x-2 w-full py-2 px-2 ${

@@ -172,7 +172,7 @@ const UserProfile = () => {
           <div className="flex flex-col w-[100%] bg-gray-50">
             <div className="m-4">
               <div className="flex flex-col w-full justify-between">
-                <div className="flex md:w-[70%] space-x-2">
+                <div className="flex md:w-[40%] space-x-2">
                   {/* user image */}
                   {!loggedUserDetails?.user?.profileImage?.data && (
                     <div className="w-fit space-y-3 p-2">
@@ -220,7 +220,7 @@ const UserProfile = () => {
                       />
                       <span
                         onClick={handleDeleteUserImage}
-                        className="cursor-pointer text-xs flex my-2 border-[1px] border-gray-500 py-1 px-2 items-center rounded"
+                        className="md:w-fit cursor-pointer text-xs flex my-2 border-[1px] border-gray-500 py-1 px-2 items-center rounded"
                       >
                         <AiFillDelete />
                         remove photo
