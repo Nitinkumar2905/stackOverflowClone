@@ -10,9 +10,9 @@ app.use(express.json({ limit: "30mb", extended: true }))
 app.use(express.urlencoded({ limit: "30mb", extended: true }))
 app.use(cors(
     {
-        origin:["https://stackoverflowclonev2.vercel.app"],
-        methods:["POST","GET","DELETE","PUT"],
-        credentials:true
+        origin: ["https://stackoverflowclonev2.vercel.app"],
+        methods: ["POST", "GET", "DELETE", "PUT"],
+        credentials: true
     }
 ))
 app.use(express.static("uploads"))
