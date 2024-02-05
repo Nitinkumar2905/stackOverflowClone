@@ -5,7 +5,7 @@ const AllUsers = () => {
   // const host = "http://localhost:8000/api/auth";
   const host = "https://stackoverflowclone-backend.vercel.app/api/auth"
   // const imageHost = "http://localhost:8000/";
-  const imageHost = "https://stackoverflowclone-backend.vercel.app"
+  const imageHost = "https://stackoverflowclone-backend.vercel.app/"
 
   const [usersData, setUsersData] = useState([]);
   const fetchAllUsers = async () => {
