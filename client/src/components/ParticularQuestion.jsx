@@ -55,6 +55,7 @@ const ParticularQuestion = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          credentials: "include",
         },
       });
 
@@ -80,6 +81,7 @@ const ParticularQuestion = () => {
           headers: {
             "Content-Type": "application/json",
             "auth-token": token,
+            credentials: "include",
           },
         });
 
@@ -116,6 +118,7 @@ const ParticularQuestion = () => {
           headers: {
             "Content-Type": "application/json",
             "auth-token": token,
+            credentials: "include",
           },
         });
         if (response.ok) {
@@ -150,6 +153,7 @@ const ParticularQuestion = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        credentials: "include",
       },
     });
     if (response.ok) {
@@ -178,6 +182,7 @@ const ParticularQuestion = () => {
           headers: {
             "Content-Type": "application/json",
             "auth-token": token,
+            credentials: "include",
           },
           body: JSON.stringify({
             answerBody,
@@ -233,6 +238,7 @@ const ParticularQuestion = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          credentials: "include",
         },
       });
       if (response.ok) {

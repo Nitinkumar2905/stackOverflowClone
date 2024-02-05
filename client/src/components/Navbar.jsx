@@ -65,6 +65,7 @@ const Navbar = () => {
       headers: {
         "Content-Type": "application/json",
         "auth-token": token,
+        credentials: "include",
       },
     });
     if (response.ok) {

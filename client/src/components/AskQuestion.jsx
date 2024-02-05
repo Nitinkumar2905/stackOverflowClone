@@ -27,6 +27,7 @@ const AskQuestion = () => {
         headers: {
           "Content-Type": "application/json",
           "auth-token": token,
+          credentials: "include",
         },
         body: JSON.stringify({
           QuestionTitle,

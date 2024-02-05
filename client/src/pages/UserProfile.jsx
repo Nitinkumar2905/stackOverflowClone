@@ -50,6 +50,7 @@ const UserProfile = () => {
       const response = await axios.post(`${host}/uploadImage`, formData, {
         headers: {
           "auth-token": token,
+          credentials: "include",
         },
       });
       if (response.status >= 200 && response.status < 300) {
@@ -85,6 +86,7 @@ const UserProfile = () => {
       headers: {
         "Content-Type": "application/json",
         "auth-token": token,
+        credentials: "include",
       },
     });
     if (response.ok) {
@@ -107,6 +109,7 @@ const UserProfile = () => {
           method: "DELETE",
           headers: {
             "auth-token": token,
+            credentials: "include",
           },
         }
       );
@@ -136,6 +139,7 @@ const UserProfile = () => {
           method: "DELETE",
           headers: {
             "auth-token": token,
+            credentials: "include",
           },
         }
       );
