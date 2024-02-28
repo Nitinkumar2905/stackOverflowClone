@@ -16,8 +16,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
-  const host = "http://localhost:8000";
-  // const host = "https://stackoverflowclone-backend.vercel.app"
+  // const host = "http://localhost:8000";
+  const host = "https://stackoverflowclone-backend.vercel.app"
   const togglePasswordType = () => {
     if (passwordType === "password") {
       setPasswordType("text");
