@@ -8,10 +8,12 @@ const app = express()
 
 app.use(express.json({ limit: "30mb", extended: true }))
 app.use(express.urlencoded({ limit: "30mb", extended: true }))
+// cors middleware
 app.use(
     cors(
         {
-            origin: ["https://stackoverflowclone-frontend.vercel.app"],
+            // origin: ["https://stackoverflowclone-frontend.vercel.app"],
+            origin:["http://localhost:3000"],
             methods: ["POST", "GET", "DELETE", "PUT"],
             credentials: true
         }
