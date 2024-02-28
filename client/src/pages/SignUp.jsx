@@ -17,8 +17,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const navigate = useNavigate();
-  // const host = "http://localhost:8000/api/auth";
-  const host = "https://stackoverflowclone-backend.vercel.app/api/auth"
+  const host = "http://localhost:8000";
+  // const host = "https://stackoverflowclone-backend.vercel.app"
   const [passwordType, setPasswordType] = useState("password");
   const [credentials, setCredentials] = useState({
     name: "",
@@ -44,12 +44,12 @@ const SignUp = () => {
     const { name, email, password, confirmPassword } = credentials;
     if (password === confirmPassword) {
       try {
-        const response = await fetch(`${host}/createUser`, {
+        const response = await fetch(`${host}/api/auth/createUser`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include",
+          // credentials: "include",
           body: JSON.stringify({
             name,
             email,

@@ -26,9 +26,8 @@ const Navbar = () => {
   const [hamburgerMenuDisplay, setHamburgerMenuDisplay] = useState("hidden");
   const [hamburgerToggle, setHamburgerToggle] = useState(false);
   const token = localStorage.getItem("token");
-  // const host = "http://localhost:8000/api/auth";
-  const host = "https://stackoverflowclone-backend.vercel.app/api/auth"
-
+  // const host = "http://localhost:8000";
+  const host = "https://stackoverflowclone-backend.vercel.app"
 
   const toggleHamburgerMenu = (e) => {
     e.preventDefault();
@@ -60,13 +59,13 @@ const Navbar = () => {
   };
 
   const handleGetUser = async () => {
-    const response = await fetch(`${host}/getUser`, {
+    const response = await fetch(`${host}/api/auth/getUser`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         "auth-token": token,
       },
-      credentials: "include",
+      // credentials: "include",
     });
     if (response.ok) {
       const data = await response.json();

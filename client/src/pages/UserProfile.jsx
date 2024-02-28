@@ -12,10 +12,10 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const ref = useRef();
 
-  // const host = "http://localhost:8000/api/auth";
-  const host = "https://stackoverflowclone-backend.vercel.app/api/auth"
-  // const imageHost = "http://localhost:8000/";
-  const imageHost = "https://stackoverflowclone-backend.vercel.app/"
+  const host = "http://localhost:8000";
+  // const host = "https://stackoverflowclone-backend.vercel.app"
+  const imageHost = "http://localhost:8000/";
+  // const imageHost = "https://stackoverflowclone-backend.vercel.app/"
 
   const [file, setFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -47,11 +47,11 @@ const UserProfile = () => {
 
     // send the form data to the backend api endpoint
     try {
-      const response = await axios.post(`${host}/uploadImage`, formData, {
+      const response = await axios.post(`${host}/api/auth/uploadImage`, formData, {
         headers: {
           "auth-token": token,
-          credentials: "include",
         },
+        // credentials: "include",
       });
       if (response.status >= 200 && response.status < 300) {
         toast.success("Image uploaded successfully!", {
@@ -81,13 +81,13 @@ const UserProfile = () => {
   };
 
   const handleGetUser = async () => {
-    const response = await fetch(`${host}/getUser`, {
+    const response = await fetch(`${host}/api/auth/getUser`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         "auth-token": token,
       },
-      credentials: "include",
+      // credentials: "include",
     });
     if (response.ok) {
       const data = await response.json();
@@ -104,12 +104,12 @@ const UserProfile = () => {
   const handleDeleteUser = async () => {
     try {
       const response = await fetch(
-        `${host}/removeUser/${loggedUserDetails.user._id}`,
+        `${host}/api/auth/removeUser/${loggedUserDetails.user._id}`,
         {
           method: "DELETE",
           headers: {
             "auth-token": token,
-            credentials: "include",
+            // credentials: "include",
           },
         }
       );
@@ -134,13 +134,13 @@ const UserProfile = () => {
   const handleDeleteUserImage = async () => {
     try {
       const response = await fetch(
-        `${host}/removeImage/${loggedUserDetails.user._id}`,
+        `${host}/api/auth/removeImage/${loggedUserDetails.user._id}`,
         {
           method: "DELETE",
           headers: {
             "auth-token": token,
           },
-          credentials: "include",
+          // credentials: "include",
         }
       );
       if (response.ok) {

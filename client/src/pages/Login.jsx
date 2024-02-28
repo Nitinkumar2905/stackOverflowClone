@@ -16,8 +16,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
-  // const host = "http://localhost:8000/api/auth";
-  const host = "https://stackoverflowclone-backend.vercel.app/api/auth"
+  const host = "http://localhost:8000";
+  // const host = "https://stackoverflowclone-backend.vercel.app"
   const togglePasswordType = () => {
     if (passwordType === "password") {
       setPasswordType("text");
@@ -33,13 +33,13 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${host}/login`, {
+      const response = await fetch(`${host}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "auth-token": token,
         },
-        credentials: "include",
+        // credentials: "include",
         body: JSON.stringify({
           email: credentials.email,
           password: credentials.password,

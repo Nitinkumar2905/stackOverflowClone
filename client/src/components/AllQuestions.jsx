@@ -5,8 +5,8 @@ import toast from "react-hot-toast";
 
 const AllQuestions = () => {
   const [questionsData, setQuestionsData] = useState([]);
-  // const host = "http://localhost:8000/api/questions";
-  const host = "https://stackoverflowclone-backend.vercel.app/api/questions"
+  // const host = "http://localhost:8000";
+  const host = "https://stackoverflowclone-backend.vercel.app"
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
@@ -42,12 +42,12 @@ const AllQuestions = () => {
   const fetchAllQuestions = async () => {
     // e.preventDefault();
     try {
-      const response = await fetch(`${host}/fetchQuestions`, {
+      const response = await fetch(`${host}/api/questions/fetchQuestions`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
+        // credentials: "include",
       });
       if (response.ok) {
         const data = await response.json();

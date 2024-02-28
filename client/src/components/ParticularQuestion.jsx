@@ -14,8 +14,8 @@ const ParticularQuestion = () => {
 
   const token = localStorage.getItem("token");
   const loggedUserId = localStorage.getItem("loggedUserId");
-  // const host = "http://localhost:8000/api/questions";
-  const host = "https://stackoverflowclone-backend.vercel.app/api/questions"
+  // const host = "http://localhost:8000";
+  const host = "https://stackoverflowclone-backend.vercel.app"
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -51,11 +51,11 @@ const ParticularQuestion = () => {
 
   const fetchQuestionData = async () => {
     try {
-      const response = await fetch(`${host}/question/${id}`, {
+      const response = await fetch(`${host}/api/questions/question/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          credentials: "include",
+          // credentials: "include",
         },
       });
 
@@ -76,12 +76,12 @@ const ParticularQuestion = () => {
   const handleVoteUp = async () => {
     try {
       if (token) {
-        const response = await fetch(`${host}/question/upVote/${id}`, {
+        const response = await fetch(`${host}/api/questions/question/upVote/${id}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "auth-token": token,
-            credentials: "include",
+            // credentials: "include",
           },
         });
 
@@ -113,12 +113,12 @@ const ParticularQuestion = () => {
   const handleVoteDown = async () => {
     try {
       if (token) {
-        const response = await fetch(`${host}/question/downVote/${id}`, {
+        const response = await fetch(`${host}/api/questions/question/downVote/${id}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "auth-token": token,
-            credentials: "include",
+            // credentials: "include",
           },
         });
         if (response.ok) {
@@ -149,11 +149,11 @@ const ParticularQuestion = () => {
   };
 
   const fetchTotalVotes = async () => {
-    const response = await fetch(`${host}/question/getVotes/${id}`, {
+    const response = await fetch(`${host}/api/questions/question/getVotes/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        credentials: "include",
+        // credentials: "include",
       },
     });
     if (response.ok) {
@@ -177,13 +177,13 @@ const ParticularQuestion = () => {
     if (token) {
       const { answerBody } = postQuestionAnswer;
       try {
-        const response = await fetch(`${host}/question/answer/${id}`, {
+        const response = await fetch(`${host}/api/questions/question/answer/${id}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "auth-token": token,
           },
-          credentials: "include",
+          // credentials: "include",
           body: JSON.stringify({
             answerBody,
           }),
@@ -234,13 +234,13 @@ const ParticularQuestion = () => {
 
   const fetchQuestionAnswers = async () => {
     try {
-      const response = await fetch(`${host}/question/getAnswer/${id}`, {
+      const response = await fetch(`${host}/api/questions/question/getAnswer/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          credentials: "include",
         },
-      });
+        // credentials: "include",
+        });
       if (response.ok) {
         const data = await response.json();
         setFetchQuestionAnswer(data);

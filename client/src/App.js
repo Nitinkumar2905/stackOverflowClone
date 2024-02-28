@@ -40,6 +40,7 @@ function App() {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/userProfile" element={<UserProfile />} />
         <Route exact path="/userProfile/:id" element={<UserProfile />} />
+        
         {/* <Route exact path="/users" element={<AllUsers />} /> */}
       </Routes>
     </Router>

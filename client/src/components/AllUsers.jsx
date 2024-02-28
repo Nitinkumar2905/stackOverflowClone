@@ -2,19 +2,19 @@ import React, { useEffect, useState } from "react";
 import HomeSidebar from "./HomeSidebar";
 
 const AllUsers = () => {
-  // const host = "http://localhost:8000/api/auth";
-  const host = "https://stackoverflowclone-backend.vercel.app/api/auth"
+  // const host = "http://localhost:8000";
+  const host = "https://stackoverflowclone-backend.vercel.app"
   // const imageHost = "http://localhost:8000/";
   const imageHost = "https://stackoverflowclone-backend.vercel.app/"
 
   const [usersData, setUsersData] = useState([]);
   const fetchAllUsers = async () => {
-    const response = await fetch(`${host}/getAllUsers`, {
+    const response = await fetch(`${host}/api/auth/getAllUsers`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include",
+      // credentials: "include",
     });
     if (response.ok) {
       const data = await response.json();
@@ -33,7 +33,7 @@ const AllUsers = () => {
             return (
               <>
                 <div
-                  className="flex justify-between w-[14rem] text-sm space-x-2 border-[0px] shadow-gray-300 shadow-md rounded-md p-2 border-sky-600"
+                  className="flex justify-between w-full text-sm space-x-2 border-[0px] shadow-gray-300 shadow-md rounded-md p-2 border-sky-600"
                   key={index}
                 >
                   <img
@@ -41,9 +41,11 @@ const AllUsers = () => {
                     src={`${imageHost}${user?.profileImage?.data}`}
                     alt=""
                   />
-                  <div className="flex flex-col w-full items-start justify-center h-full">
-                    <span className="text-blue-600 font-semibold">{user.name}</span>
-                    <span>{user.email}</span>
+                  <div className="flex flex-col flex-wrap w-full items-start justify-center h-full">
+                    <span className="text-blue-600 font-semibold">
+                      {user.name}
+                    </span>
+                    <span className="">{user.email}</span>
                   </div>
                   {/* <span>{user._id}</span> */}
                 </div>
