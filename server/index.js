@@ -1,5 +1,5 @@
 const express = require("express")
-const cors = require("cors")
+// const cors = require("cors")
 const connectToMongo = require("./db/db")
 const port = 8000;
 
@@ -8,14 +8,14 @@ const app = express()
 
 app.use(express.json({ limit: "30mb", extended: true }))
 app.use(express.urlencoded({ limit: "30mb", extended: true }))
-app.use(
-    cors(
-    {
-        origin: ["https://stackoverflowclone-frontend.vercel.app"],
-        methods: ["POST", "GET", "DELETE", "PUT"],
-        credentials: true
-    }
-))
+// app.use(
+//     cors(
+//     // {
+//     //     origin: ["https://stackoverflowclone-frontend.vercel.app"],
+//     //     methods: ["POST", "GET", "DELETE", "PUT"],
+//     //     credentials: true
+//     // }
+// ))
 app.use(express.static("uploads"))
 
 app.get("/", (req, res) => {
