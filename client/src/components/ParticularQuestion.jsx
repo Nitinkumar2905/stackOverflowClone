@@ -56,7 +56,7 @@ const ParticularQuestion = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        // credentials: "include",
+        credentials: "include",
       });
 
       if (response.ok) {
@@ -82,7 +82,7 @@ const ParticularQuestion = () => {
             "Content-Type": "application/json",
             "auth-token": token,
           },
-          // credentials: "include",
+          credentials: "include",
         });
 
         if (response.ok) {
@@ -119,7 +119,7 @@ const ParticularQuestion = () => {
             "Content-Type": "application/json",
             "auth-token": token,
           },
-          // credentials: "include",
+          credentials: "include",
         });
         if (response.ok) {
           // eslint-disable-next-line
@@ -154,7 +154,7 @@ const ParticularQuestion = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      // credentials: "include",
+      credentials: "include",
     });
     if (response.ok) {
       const data = await response.json();
@@ -183,7 +183,7 @@ const ParticularQuestion = () => {
             "Content-Type": "application/json",
             "auth-token": token,
           },
-          // credentials: "include",
+          credentials: "include",
           body: JSON.stringify({
             answerBody,
           }),
@@ -239,7 +239,7 @@ const ParticularQuestion = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        // credentials: "include",
+        credentials: "include",
         });
       if (response.ok) {
         const data = await response.json();

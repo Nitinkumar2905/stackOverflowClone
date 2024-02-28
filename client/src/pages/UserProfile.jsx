@@ -51,7 +51,7 @@ const UserProfile = () => {
         headers: {
           "auth-token": token,
         },
-        // credentials: "include",
+        credentials: "include",
       });
       if (response.status >= 200 && response.status < 300) {
         toast.success("Image uploaded successfully!", {
@@ -87,7 +87,7 @@ const UserProfile = () => {
         "Content-Type": "application/json",
         "auth-token": token,
       },
-      // credentials: "include",
+      credentials: "include",
     });
     if (response.ok) {
       const data = await response.json();
@@ -110,7 +110,7 @@ const UserProfile = () => {
           headers: {
             "auth-token": token,
           },
-          // credentials: "include",
+          credentials: "include",
         }
       );
       if (response.ok) {
@@ -140,7 +140,7 @@ const UserProfile = () => {
           headers: {
             "auth-token": token,
           },
-          // credentials: "include",
+          credentials: "include",
         }
       );
       if (response.ok) {

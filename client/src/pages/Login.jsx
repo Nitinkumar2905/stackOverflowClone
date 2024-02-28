@@ -17,7 +17,7 @@ const Login = () => {
 
   const token = localStorage.getItem("token");
   // const host = "http://localhost:8000";
-  const host = "https://stackoverflowclone-backend.vercel.app"
+  const host = "https://stackoverflowclone-backend.vercel.app";
   const togglePasswordType = () => {
     if (passwordType === "password") {
       setPasswordType("text");
@@ -39,7 +39,8 @@ const Login = () => {
           "Content-Type": "application/json",
           "auth-token": token,
         },
-        // credentials: "include",
+        credentials: "include",
+        
         body: JSON.stringify({
           email: credentials.email,
           password: credentials.password,
@@ -68,7 +69,7 @@ const Login = () => {
           },
         });
         console.error("password incorrect");
-        redirect("/signUp")
+        redirect("/signUp");
       }
     } catch (error) {
       console.error(error);
@@ -166,7 +167,9 @@ const Login = () => {
           <div className="flex flex-col items-center justify-center w-[100vw] space-y-2">
             <div className="flex items-center justify-center w-fit mx-auto space-x-1 text-sm">
               <span>Don't have an account?</span>
-              <Link to="/signUp" className="text-blue-500 text-xs">Sign Up</Link>
+              <Link to="/signUp" className="text-blue-500 text-xs">
+                Sign Up
+              </Link>
             </div>
             <div className="flex items-center w-full mx-auto justify-center space-x-1 text-sm">
               <span>Are you an employeer?</span>
