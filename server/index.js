@@ -12,9 +12,8 @@ app.use(express.urlencoded({ limit: "30mb", extended: true }))
 app.use(
     cors(
         {
-            // origin: ["https://stackoverflowclone-frontend.vercel.app"],
-            origin:["http://localhost:3000"],
-            methods: ["POST", "GET", "DELETE", "PUT"],
+            origin: ["https://stackoverflowclone-frontend.vercel.app"],
+            methods: ["POST", "GET", "DELETE"],
             credentials: true
         }
     ))
