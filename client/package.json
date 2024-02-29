@@ -54,6 +54,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "proxy": "https://stackoverflowclone-backend.vercel.app"
+  "license": "ISC"
 }

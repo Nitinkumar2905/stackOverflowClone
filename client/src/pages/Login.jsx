@@ -38,7 +38,6 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
           "auth-token": token,
-          "Access-Control-Allow-Origin": "*",
         },
         credentials: "include",
 

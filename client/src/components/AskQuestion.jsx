@@ -29,6 +29,7 @@ const AskQuestion = () => {
           "auth-token": token,
         },
         credentials: "include",
+
         body: JSON.stringify({
           QuestionTitle,
           QuestionDetails,

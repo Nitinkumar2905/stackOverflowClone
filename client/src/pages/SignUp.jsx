@@ -50,7 +50,7 @@ const SignUp = () => {
             "Content-Type": "application/json",
           },
           credentials: "include",
-          
+
           body: JSON.stringify({
             name,
             email,

@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 const AllQuestions = () => {
   const [questionsData, setQuestionsData] = useState([]);
   // const host = "http://localhost:8000";
-  const host = "https://stackoverflowclone-backend.vercel.app"
+  const host = "https://stackoverflowclone-backend.vercel.app";
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
@@ -124,10 +124,13 @@ const AllQuestions = () => {
                     </div>
                     <div className="flex flex-col md:flex-row justify-between space-y-2 md:space-x-2">
                       <div className="space-x-2">
-                        {question.QuestionTags.map((tag) => {
+                        {question.QuestionTags.map((tag, index) => {
                           return (
                             <>
-                              <span className="text-xs md:text-sm bg-blue-100 px-2 text-blue-500 py-1 rounded">
+                              <span
+                                className="text-xs md:text-sm bg-blue-100 px-2 text-blue-500 py-1 rounded"
+                                key={index}
+                              >
                                 {tag}
                               </span>
                             </>
@@ -136,7 +139,10 @@ const AllQuestions = () => {
                       </div>
                       {question.userName && (
                         <div className="text-sm">
-                          <Link to="/userProfile" className="font-medium text-blue-600">
+                          <Link
+                            to="/userProfile"
+                            className="font-medium text-blue-600"
+                          >
                             {question?.userName}
                           </Link>{" "}
                           {""}
